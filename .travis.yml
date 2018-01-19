@@ -1,0 +1,33 @@
+# Travis-CI Build for btok
+# see travis-ci.org for details
+
+language: generic
+
+os: linux
+dist: trusty
+sudo: required
+
+before_install:
+  - sudo apt-get install -y --no-install-recommends
+      texlive-base texlive-latex-base texlive-latex-extra 
+      texlive-latex-recommended texlive-generic-extra
+      texlive-fonts-recommended texlive-generic-recommended
+      texlive-fonts-extra texlive-lang-cyrillic 
+
+script:
+  - cd spec
+  - pdflatex -interaction=nonstopmode -halt-on-error btok.tex
+  - pdflatex -interaction=nonstopmode -halt-on-error btok.tex
+  - cd ..
+
+deploy:
+  provider: releases
+  api_key: 
+    secure: MId00SSt5wmTcY03/eHmCPvq01EelfMmmqeiuadzzL2nYOgDPrC3lNR+UZYutQfWDFiVxU0tUc/V26C8V4Ki5S3kVV+tYhdMWxNjG5uGYG+v8c4H8upLoyedvHgNK7DlVPkRmRJ0NSgI5bmF1HW/sKLWNrd63BLRHqlaJK71W901b9TYhOOtBedk7HzKdQNBzooU0bbqnpWyO/AFC9tAnC/hqpnWYDQs1I1EQKe8+4JPVMCIQoZcf5gVlZL+pkW8TBeVxyzuqmlYEyl7q1kvEBKB0B3CZsErpYuVMyz8enJP5O508NKk12oK+lmbajBO2NRzOlEf6R4nFXccX4x3dJT+LZePiUNhyVwKAkWXZ1eGyANPD6ws417vRjGiBUhdRH1AWr/x9Bx7DfxotIHe0OfHRi/7QA5ctlw47mQYGmO8XCxVAKXU6kmS2li6rSWr1nm00K4Tbqf4OLiN366J6PFAfLGSHV7YdGxdBf213D35Da6LAR6pAlqa3h7lyuTQk5l2CB+ZIif2dI7XxWG98Ugvf45P0FQSd+RbBbVVpWPZSUHZ5smhqeoAx7R8UZ4HQt3o65V2uQZm9nv1Y0AezJ/e7R/2isMMAyQImFvipFzo7Q3Pcg86NDITVVHW0vgK2UBg3BSk99lP408VngvX97EeYXCOeZPkPTcAIDcKGCk=
+  file: spec/btok.pdf
+  skip_cleanup: true
+  overwrite: true
+  on:
+    repo: bcrypto/btok
+    branch: master
+    tags: true

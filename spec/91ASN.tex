@@ -1,0 +1,193 @@
+\begin{appendix}{А}{рекомендуемое}{Модуль АСН.1}
+\label{ASN}
+
+\mbox{}
+
+\hiddensection{Идентификаторы}
+
+Объектам назначаются следующие идентификаторы:
+\begin{center}
+\begin{tabular}{p{4.5cm}p{11.5cm}}
+\verb|id-DocumentValidity| &
+дополнительный атрибут DocumentValidity (см.~\ref{DATA.Optional});\\
+%
+\verb|id-AgeVerification| &
+дополнительный атрибут AgeVerification (см.~\ref{DATA.Optional});\\
+%
+\verb|id-PlaceVerification| &
+дополнительный атрибут PlaceVerification (см.~\ref{DATA.Optional});\\
+%
+\verb|id-eID| &
+прикладная программа eID (см.~\ref{OBJ.eID});\\
+%
+\verb|id-eSign| &
+прикладная программа eID (см.~\ref{OBJ.eSign});\\
+%
+\verb|id-eIdAccess| &
+права доступа к прикладной программе eID 
+(см.~\ref{DATA.Access});\\
+%
+\verb|id-eSignAccess| &
+права доступа к прикладной программе eSign 
+(см.~\ref{DATA.Access});\\
+%
+\verb|id-SignAuthExt| &
+расширение с правами доступа к прикладной программе eSign 
+(см.~\ref{CERTS.Light});\\
+%
+\verb|btok-bauth| &
+полный протокол BAUTH 
+(см.~\ref{CRYPTO.BAUTH});\\
+%
+\verb|btok-bauth1| &
+протокол BAUTH с односторонней аутентификацией
+(см.~\ref{CRYPTO.BAUTH}).\\
+\end{tabular}
+\end{center}
+
+Долговременному открытому ключу, который используется в протоколе 
+BAUTH, присваивается идентификатор \verb|bign-pubkey|, определенный в СТБ 
+34.101.45 (приложение Д).
+
+\hiddensection{Описание долговременного открытого ключа}
+
+На уровне стойкости~$l$ долговременному открытому ключу~$Q$ ставится в 
+соответствие двоичное слово $\langle Q\rangle_{4l}$, для описания которого может 
+использоваться тип \verb|PublicKey|, определенный в СТБ 34.101.45 (приложение~Д). 
+
+В запросе на получение сертификата (СТБ 34.101.17), в сертификатах (СТБ 
+34.101.19) открытый ключ должен представляться значениями типа 
+\verb|SubjectPublicKeyInfo|. Этот тип также определен в СТБ 34.101.45 
+(приложение~Д). 
+
+\hiddensection{Модуль АСН.1}
+
+%    ArtisticName ::= [APPLICATION 6] UTF8String
+%    BirthName ::= [APPLICATION 13] UTF8String
+
+\begin{verbatim}
+Btok-module-v1 {iso(1) member-body(2) by(112) 0 2 0 34 101 79 module(1) ver1(1)}
+DEFINITIONS ::=
+BEGIN
+  btok OBJECT IDENTIFIER ::= {iso(1) member-body(2) by(112) 0 2 0 34 101 79}
+
+  btok-bauth OBJECT IDENTIFIER ::= {btok 11}
+  btok-bauth1 OBJECT IDENTIFIER ::= {btok 12}
+  btok-ticket OBJECT IDENTIFIER ::= {btok 101}
+
+  btok-attrs ::= OBJECT IDENTIFIER {btok 5}
+  id-DocumentValidity ::= OBJECT IDENTIFIER {btok-attrs 1}
+  id-AgeVerification ::= OBJECT IDENTIFIER {btok-attrs 2}
+  id-PlaceVerification ::= OBJECT IDENTIFIER {btok-attrs 3}
+
+  btok-access ::= OBJECT IDENTIFIER {btok 6}
+  id-eIdAccess ::= OBJECT IDENTIFIER {btok-access 1}
+  id-eSignAccess ::= OBJECT IDENTIFIER {btok-access 2}
+
+  btok-apps ::= OBJECT IDENTIFIER {btok 7}
+  id-eID ::= OBJECT IDENTIFIER {btok-apps 1}
+  id-eSign ::= OBJECT IDENTIFIER {btok-apps 2}
+
+  btok-cvext ::= OBJECT IDENTIFIER {btok 8}
+  id-SignAuthExt ::= OBJECT IDENTIFIER {btok-cvext 1}
+
+  DocumentType ::= [APPLICATION 1] ICAOString (SIZE(2))
+  IssuingState ::= [APPLICATION 2] Country
+  DateOfExpiry ::= [APPLICATION 3] Date
+  GivenNames ::= [APPLICATION 4] UTF8String
+  FamilyNames ::= [APPLICATION 5] UTF8String
+  AcademicTitle ::= [APPLICATION 7] UTF8String
+  DateOfBirth ::= [APPLICATION 8] Date
+  PlaceOfBirth ::= [APPLICATION 9] GeneralPlace
+  Nationality ::= [APPLICATION 10] Country
+  Sex ::= [APPLICATION 11] ICAOSex
+  OptionalDataR ::= [APPLICATION 12] SET OF OptionalData
+  WrittenSignature ::= [APPLICATION 14] OCTET STRING
+  DateOfIssuance ::= {APPLICATION 15] Date
+  PlaceOfResidence ::= [APPLICATION 17] GeneralPlace
+  CommunityID ::= [APPLICATION 18] OCTET STRING
+  ResidencePermitI ::= [APPLICATION 19] Text
+  ResidencePermitII ::= [APPLICATION 20] Text
+  PhoneNumber ::= [APPLICATION 21] PrintableString
+  EmailAddress ::= [APPLICATION 22] IA5String
+  
+  ICAOString ::= PrintableString (FROM ("A".."Z" | " "))
+  Country ::= ICAOString (SIZE (3))
+  ICAOSex ::= PrintableString (FROM ("M"|"F"|" "))
+  Date ::= NumericString (SIZE (8))
+  
+  Place ::= SEQUENCE {
+    street  [10] UTF8String OPTIONAL,
+    city    [11] UTF8String,
+    state   [12] UTF8String OPTIONAL,
+    country [13] Country,
+    zipcode [14] PrintableString OPTIONAL
+  }
+  
+  GeneralPlace ::= CHOICE {
+    structuredPlace Place
+    freetextPlace   [1] UTF8String
+    noPlaceInfo     [2] UTF8String
+  }
+  
+  Text ::= CHOICE {
+    uncompressed [1] UTF8String
+    compressed   [2] OCTET STRING
+  }
+  
+  OptionalData ::= SEQUENCE {
+    type  OBJECT IDENTIFIER,
+    data  ANY DEFINED BY type OPTIONAL
+  }
+
+  AuthAuxData ::= [APPLICATION 7] SEQUENCE of DiscretionaryDataTemplate;
+
+  DiscretionaryDataTemplate ::= [APPLICATION 19] SEQUENCE {
+    objIdentifier  OBJECT IDENTIFIER,
+    dataObjects    ANY DEFINED BY objIdentifier
+  }
+
+  CertHAT ::= [APPLICATION 76] SEQUENCE {
+    objId              OBJECT IDENTIFIER,
+    discretionaryData  [APPLICATION 19] OCTET STRING OPTIONAL
+  }
+  EIDAccess ::= OCTET STRING(SIZE(5))
+  ESignAccess ::= OCTET STRING(SIZE(2))
+  CVCertificate ::= [APPLICATION 33] SEQUENCE {
+    certificateBody ::=               [APPLICATION 78] SEQUENCE {
+    certProfileIdentifier             [APPLICATION 41] INTEGER { v1(0) },
+    certAuthorityReference            [APPLICATION 2]  CharString,
+    publicKey                         [APPLICATION 73] PubKey,
+    certHolderReference               [APPLICATION 32] CharString,
+    certHolderAuthorizationTemplate   [APPLICATION 76] CertHAT  OPTIONAL,
+    certEffectiveDate                 [APPLICATION 37] CVDate,
+    certExpirationDate                [APPLICATION 36] CVDate,
+    certExtensions                    [APPLICATION 5]  CVExt  OPTIONAL
+  },
+    signature                         [APPLICATION 55] OCTET STRING
+  }
+
+  CharString ::= OCTET STRING (SIZE (8..16))
+
+  PubKey ::= SEQUENCE {
+    objIdentifier             OBJECT IDENTIFIER,
+    pubKeyandParameters       ANY DEFINED BY objIdentifier 
+  }
+
+  CertHAT ::= SEQUENCE {
+    objIdentifier             OBJECT IDENTIFIER,
+    discretionaryData         OCTET STRING OPTIONAL
+  }
+
+  CVDate :: = NumericString (SIZE(6)) -- YYMMDD
+
+  CVExt ::= SEQUENCE OF DiscretionaryDataTemplate
+
+  DiscretionaryDataTemplate ::= [APPLICATION 19] SEQUENCE {
+    objIdentifier            OBJECT IDENTIFIER,
+    dataObjects              ANY DEFINED BY objIdentifier
+  }
+END
+\end{verbatim}
+
+\end{appendix}
