@@ -55,7 +55,7 @@ BAUTH, присваивается идентификатор \verb|bign-pubkey|,
 соответствие двоичное слово $\langle Q\rangle_{4l}$, для описания которого может 
 использоваться тип \verb|PublicKey|, определенный в СТБ 34.101.45 (приложение~Д). 
 
-В запросе на получение сертификата (СТБ 34.101.17), в сертификатах (СТБ 
+В запросе на получение сертификата (см. СТБ 34.101.17), в сертификатах (см. СТБ 
 34.101.19) открытый ключ должен представляться значениями типа 
 \verb|SubjectPublicKeyInfo|. Этот тип также определен в СТБ 34.101.45 
 (приложение~Д). 
@@ -68,7 +68,7 @@ BAUTH, присваивается идентификатор \verb|bign-pubkey|,
 
 \begin{verbatim}
 Btok-module-v1 {iso(1) member-body(2) by(112) 0 2 0 34 101 79 module(1) ver1(1)}
-DEFINITIONS ::=
+DEFINITIONS IMPLICIT TAGS::=
 BEGIN
   btok OBJECT IDENTIFIER ::= {iso(1) member-body(2) by(112) 0 2 0 34 101 79}
 
@@ -104,7 +104,7 @@ BEGIN
   Sex ::= [APPLICATION 11] ICAOSex
   OptionalDataR ::= [APPLICATION 12] SET OF OptionalData
   WrittenSignature ::= [APPLICATION 14] OCTET STRING
-  DateOfIssuance ::= {APPLICATION 15] Date
+  DateOfIssuance ::= [APPLICATION 15] Date
   PlaceOfResidence ::= [APPLICATION 17] GeneralPlace
   CommunityID ::= [APPLICATION 18] OCTET STRING
   ResidencePermitI ::= [APPLICATION 19] Text
@@ -126,13 +126,13 @@ BEGIN
   }
   
   GeneralPlace ::= CHOICE {
-    structuredPlace Place
-    freetextPlace   [1] UTF8String
+    structuredPlace Place,
+    freetextPlace   [1] UTF8String,
     noPlaceInfo     [2] UTF8String
   }
   
   Text ::= CHOICE {
-    uncompressed [1] UTF8String
+    uncompressed [1] UTF8String,
     compressed   [2] OCTET STRING
   }
   

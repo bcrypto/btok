@@ -1,0 +1,79 @@
+\begin{appendix}{В}{обязательное}{Статусы ответа}
+\label{ERRORS}
+
+В таблице~\ref{Table.Errors.General} приводятся типичные для команд, 
+определенных в~\ref{Oper.Descr},
+ошибочные условия и соответствующие им 
+статусы $\text{SW1} \parallel \text{SW2}$,
+возвращаемые в ответе на команду.
+Специфические для каждой команды ошибочные условия и соответствующие
+им статусы ответа приводятся 
+при описании команд в~\ref{Oper.Descr}.
+КТ может поддерживать возврат статусов ответа,
+которые не определены в настоящем стандарте.
+%Указанные статусы ответа соответствуют~\cite{APDU}.
+
+\begin{table}[hbt]
+\caption{Основные статусы ответа}
+\label{Table.Errors.General}
+\begin{tabular}{|p{14cm}|c|}
+\hline
+Условие & $\text{SW1} \parallel \text{SW2}$\\
+\hline
+\hline
+%Execution error
+Внутренняя ошибка выполнения команды & $\hex{6400}$ \\
+\hline
+%Memory error when reading or writing data
+Ошибка памяти при записи или чтении данных & $\hex{6581}$ \\
+\hline
+%Lc is not allowed for command variant
+Недопустимое значение компонента Lc & $\hex{6700}$ \\
+\hline
+%Lc is not consistent with length of command data
+Значение компонента Lc не соответствует длине данных команды& $\hex{6700}$ \\
+\hline
+%Lc or Le present while is has to be absent
+Компонент Lc или Le команды не включен в команду, 
+когда это требуется& $\hex{6700}$ \\
+\hline
+%Lc or Le absent while it has to be present
+Компонент Lc или Le включен в команду, 
+когда это не требуется& $\hex{6700}$ \\
+\hline
+%Command chaining not supported
+Цепочка команд не поддерживается & $\hex{6884}$ \\
+\hline
+%Security status not satisfied
+Для текущего состояния КТ команда не может быть выполнена
+или терминал не имеет права выполнения команды & $\hex{6982}$ \\
+\hline
+% Expected SM DO missing
+Отсутствует ожидаемый объект данных защищенной 
+команды & $\hex{6987}$ \\
+\hline
+%Incorrect SM DO
+Некорректный объект данных защищенной команды & $\hex{6988}$ \\
+\hline
+Некорректные данные в CDF & $\hex{6A80}$ \\
+\hline
+%Incorrect parameters P1- P2
+Некорректные параметры P1, P2 & $\hex{6A86}$ \\
+\hline
+Ссылочные данные не найдены & $\hex{6A88}$ \\
+\hline
+%INS not supported
+Заданное значение INS не поддерживается & $\hex{6D00}$ \\
+\hline
+%Class not supported
+Заданное значение CLA не поддерживается & $\hex{6E00}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\mbox{}
+\vfill
+\mbox{}
+\clearpage
+
+\end{appendix}
