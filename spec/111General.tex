@@ -101,7 +101,7 @@ SW2 & Статус ответа & 1 \\
 с тегом $T\in\{0,1\}^{8*}$ строится строка 
 октетов~$\der(T, X) = T \parallel L \parallel X$, 
 где $L\in\{0,1\}^{8*}$~--- 
-закодированная длина $X$ [см. ГОСТ 34.974 (п. 6.3)]. 
+закодированная длина $X$ \doubt{[см. ГОСТ 34.974 (подраздел 6.3)]}. 
 
 В случае если при разборе команды или ответа обнаруживается нарушение их 
 формата или формата закодированных данных, то должна быть возвращена 
@@ -117,7 +117,7 @@ SW2 & Статус ответа & 1 \\
 в протоколе BPACE при аутентификации (см.~\ref{OBJ.PWD}), 
 и уровень (мастер-файл, прикладная программа), 
 на котором может выполняться операция 
-(см.~\ref{FILES}).
+(см. приложение~\ref{FILES}).
 Символ <</>> в таблице обозначает <<или>>.
 
 % todo: AS - взаимная или односторонняя аутентификация, не всегда понятно? 
@@ -130,94 +130,94 @@ SW2 & Статус ответа & 1 \\
 Операция & Пункт & Состояние и соединение & Пароль BPACE & Уровень \\
 \hline
 \hline
-%
+%1~
 Активация личного ключа & \ref{Oper.Descr.ActivateKey} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%2~
 Активация PIN & \ref{Oper.Descr.ActivatePIN} & PS/AS:AT & PUK & eID/eSign \\
 \hline
-%
+%3~
 Выбор мастер-файла & \ref{Oper.Descr.SelectMF} & IS/PS/AS & любой & все \\
 \hline
-%
+%4~
 Выбор прикладной программы & \ref{Oper.Descr.SelectApp} & PS/AS & любой & все \\
 \hline
-%
+%5~
 Выбор элементарного файла eID & \ref{Oper.Descr.SelectEF} & AS:AT & CAN/PIN & eID \\
 \hline
-%
+%6~
 Выбор элементарного файла eSign & \ref{Oper.Descr.SelectEF} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%7~
 Выполнение основных шагов протокола BAUTH & \ref{Oper.Descr.GABAUTH} & PS & любой & MF \\
 \hline
-%
+%8~
 Выполнение шагов протокола BPACE & \ref{Oper.Descr.GABPACE} & IS/PS/AS:CP & ---/любой & MF \\
 \hline
-%
+%9~
 Выработка подписи & \ref{Oper.Descr.Signature} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%10~
 Генерация ключевой пары & \ref{Oper.Descr.GenKeys} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%11~
 Деактивация личного ключа & \ref{Oper.Descr.DeactivateKey}  & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%12~
 Деактивация PIN & \ref{Oper.Descr.DeactivatePIN}  & PS/AS:AT & PIN/PUK & eID/eSign \\
 \hline
-%
+%13~
 Изменение PIN & \ref{Oper.Descr.ChangePIN} & PS/AS:CP & PIN & eID/eSign \\
 \hline
-%
+%14~
 Инициализация алгоритма выработки подписи & \ref{Oper.Descr.SetDST} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%15~
 Инициализация алгоритма разбора токена ключа & \ref{Oper.Descr.SetCT} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%16~
 Инициализация протокола BAUTH & \ref{Oper.Descr.SetBAUTH} & PS & любой & MF \\
 \hline
-%
+%17~
 Инициализация протокола BPACE & \ref{Oper.Descr.SetBPACE} & IS/PS/AS:CP & ---/любой & MF \\
 \hline
-%
+%18~
 Обновление данных eID & \ref{Oper.Descr.Update} & AS:AT & CAN/PIN & eID \\
 \hline
-%
+%19~
 Обновление данных eSign & \ref{Oper.Descr.Update} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%20~
 Переключение между соединениями & \ref{Oper.Descr.SetCS} & AS & PIN/PUK & eID/eSign \\
 \hline
-%
+%21~
 Подтверждение PIN & \ref{Oper.Descr.VerifyPIN} & PS/AS:CP & PIN & eSign \\
 \hline
-%
-Получение значений дополнительных атрибутов & \ref{Oper.Descr.VerifyData}& AS:AT & CAN/PIN & eID \\
+%22~
+Проверка дополнительного атрибута& \ref{Oper.Descr.VerifyData}& AS:AT & CAN/PIN & eID \\
 \hline
-%
+%23~
 Проверка сертификата & \ref{Oper.Descr.VerifyCert} & PS & любой & MF \\
 \hline
-%
+%24~
 Проверка статуса подтверждения PIN & \ref{Oper.Descr.VerifyAuth} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%25~
 Разблокировка PIN & \ref{Oper.Descr.UnblockPIN} & PS/AS:CP  & PUK & eID/eSign \\
 \hline
-%
+%26~
 Разбор токена ключа & \ref{Oper.Descr.Decipher} & PS/AS:AT & PIN & eSign \\
 \hline
-%
+%27~
 Сброс статуса подтверждения PIN & \ref{Oper.Descr.VerifyDeauth} & PS/AS:AT  & PIN & eSign \\
 \hline
-%
+%28~
 Чтение данных eID & \ref{Oper.Descr.Read} & AS:AT & CAN/PIN & eID \\
 \hline
-%
+%29~
 Чтение данных eSign & \ref{Oper.Descr.Read} & PS/AS:AT& PIN & eSign \\
 \hline
-%
+%30~
 Уничтожение личного ключа & \ref{Oper.Descr.Terminate} & PS/AS:AT  & PIN & eSign \\
 \hline
 \end{tabular}
