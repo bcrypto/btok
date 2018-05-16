@@ -2,11 +2,13 @@
 
 \section{Группы данных}\label{DATA.DG}
 
-Идентификационные данные владельца КТ организованы в виде групп, 
+Информация о КТ и идентификационные данные владельца КТ организованы в виде групп, 
 которые нумеруются DG1, DG2,\ldots, DG22. 
-Группы DG6, DG13 и DG16 зарезервирована для будущего 
-применения, ее содержание в настоящем стандарте не определяются. 
+Группы DG13, DG18, DG19, DG20 зарезервирована для будущего 
+применения, их содержание в настоящем стандарте не определяются. 
 Задействованные группы данных описаны в таблице~\ref{Table.DATA.DG}. 
+Непосредстенно идентификационные данные владельца КТ располагается 
+в группах данных DG4 -- DG12, DG17, DG21, DG22. 
 
 \begin{table}[h!]
 \caption{Группы данных}\label{Table.DATA.DG}
@@ -15,25 +17,25 @@
 Группа & Наименование & Содержание \\
 \hline
 \hline
-DG1 &	DocumentType &	Тип КТ    \\
+DG1 &	SerialNumber &	Серийный номер КТ    \\
 \hline
 DG2 &	IssuingState &	Страна, выпустившая КТ \\
 \hline
 DG3 &	DateOfExpiry &	Дата окончания действия КТ  \\
 \hline
-DG4 &	GivenNames   &	Имя и отчество владельца КТ  \\
+DG4 &	GivenName   &	Имя  \\
 \hline
-DG5 &	FamilyNames &	Фамилия владельца КТ  \\
+DG5 &	FamilyName &	Фамилия \\
 \hline
-%DG6 &	Pseudonym &	Псевдоним владельца КТ \\
-%\hline
-DG7 &	AcademicTitle & Академическое звание  \\
+DG6 &	MiddleName &	Отчество \\
 \hline
-DG8 &	DateOfBirth &	Дата рождения    \\
+DG7 &	PersonalNumber & Личный номер \\
 \hline
-DG9 &	PlaceOfBirth &	Место рождения  \\
+DG8 &	DateOfBirth &	Дата рождения \\
 \hline
-DG10 & 	Nationality &	Национальность \\
+DG9 &	PlaceOfBirth &	Место рождения \\
+\hline
+DG10 & 	Nationality &	Гражданство \\
 \hline
 DG11 &	Sex 	  &  Пол \\
 \hline
@@ -41,19 +43,29 @@ DG12 &	OptionalDataR & Дополнительные данные для чтен
 \hline
 %DG13 &  BirthName & ФИО владельца, данное ему при рождении \\
 %\hline
-DG14 &  WrittenSignature & Изображение ручной подписи владельца КТ \\
+DG13 &	--- &   Зарезервировано на будущее \\
+\hline
+DG14 &  WrittenSignature & Изображение ручной подписи \\
 \hline
 DG15 &  DateОfIssuance & Дата выпуска КТ \\
 \hline
-DG17 &	PlaceOfResidence &	Адрес постоянного места жительства  \\
+DG16 &  IssuanceBoard & Орган, выдавший КТ \\
 \hline
-DG18 &	CommunityID 	 &   Код региона \\
+DG17 &	PlaceOfResidence &	Адрес постоянного места жительства \\
 \hline
-DG19 &	ResidencePermitI &	Вид на жительство I  \\
+%DG18 &	CommunityID 	 &   Код региона \\
+%\hline
+%DG19 &	ResidencePermitI &	Вид на жительство I  \\
+%\hline
+%DG20 &	ResidencePermitII& 	Вид на жительство II \\
+%\hline
+DG18 &	--- &   Зарезервировано на будущее \\
 \hline
-DG20 &	ResidencePermitII& 	Вид на жительство II \\
+DG19 &	--- &	Зарезервировано на будущее  \\
 \hline
-DG21 &	PhoneNumber & Номер телефона \\
+DG20 &	--- & 	Зарезервировано на будущее \\
+\hline
+DG21 &	PhoneNumber & Номер телефона\\
 \hline
 DG22 &	EMailAddress & Адрес электронной почты \\
 \hline
@@ -62,17 +74,27 @@ DG22 &	EMailAddress & Адрес электронной почты \\
                          
 Группы данных описываются одноименными типами АСН.1,
 \doubt{для которых применяется тегирование} \verb|IMPLICIT|:
-% OptionalDataRW ::= [APPLICATION 21] SET OF OptionalData    
-% Pseudonym ::= [APPLICATION 6] UTF8String
-% BirthName ::= [APPLICATION 13] UTF8String                  
+
+\if 0
+CommunityID ::= [APPLICATION 18] OCTET STRING
+ResidencePermitI ::= [APPLICATION 19] Text
+ResidencePermitII ::= [APPLICATION 20] Text
+
+Text ::= CHOICE {
+  uncompressed [1] UTF8String
+  compressed   [2] OCTET STRING
+}
+\fi
+
 
 \begin{verbatim}
-DocumentType ::= [APPLICATION 1] ICAOString (SIZE(2))
+SerialNumber ::= [APPLICATION 1] PrintableString(SIZE (7..64))
 IssuingState ::= [APPLICATION 2] Country
 DateOfExpiry ::= [APPLICATION 3] Date
-GivenNames ::= [APPLICATION 4] UTF8String
-FamilyNames ::= [APPLICATION 5] UTF8String
-AcademicTitle ::= [APPLICATION 7] UTF8String
+GivenName ::= [APPLICATION 4] UTF8String
+FamilyName ::= [APPLICATION 5] UTF8String
+MiddleName ::= [APPLICATION 6] UTF8String
+PersonalNumber ::= [APPLICATION 7] PrintableString(SIZE (7..64))
 DateOfBirth ::= [APPLICATION 8] Date
 PlaceOfBirth ::= [APPLICATION 9] GeneralPlace
 Nationality ::= [APPLICATION 10] Country
@@ -80,10 +102,8 @@ Sex ::= [APPLICATION 11] ICAOSex
 OptionalDataR ::= [APPLICATION 12] SET OF OptionalData
 WrittenSignature ::= [APPLICATION 14] OCTET STRING
 DateOfIssuance ::= [APPLICATION 15] Date
+IssuanceBoard ::= [APPLICATION 16] UTF8String
 PlaceOfResidence ::= [APPLICATION 17] GeneralPlace
-CommunityID ::= [APPLICATION 18] OCTET STRING
-ResidencePermitI ::= [APPLICATION 19] Text
-ResidencePermitII ::= [APPLICATION 20] Text
 PhoneNumber ::= [APPLICATION 21] PrintableString
 EmailAddress ::= [APPLICATION 22] IA5String
 
@@ -103,23 +123,26 @@ GeneralPlace ::= CHOICE {
   freetextPlace   [1] UTF8String
   noPlaceInfo     [2] UTF8String
 }
-Text ::= CHOICE {
-  uncompressed [1] UTF8String
-  compressed   [2] OCTET STRING
-}
 OptionalData ::= SEQUENCE {
   type OBJECT IDENTIFIER,
   data ANY DEFINED BY type OPTIONAL
 }
 \end{verbatim}
 
-В группе DG1 должно устанавливаться значение~\str{ID}.
+Серийный номер КТ в группе DG1 должен устанавливаться в соответствии с правилами,
+заданными в СТБ 34.101.78 для идентификационного атрибута \str{serialNumber}. 
+При этом для серийного номера ID-карты должен использоваться префикс \str{IDCBY},
+например, \str{IDCBY-590082394654}.
 
 Код страны в группах DG2 и DG10 должен иметь трехсимвольное обозначение 
 согласно~\cite{CountryCodes}. 
-Для Республики Беларусь код страны должен иметь значение \str{BLR}. 
+Для группы DG2 код страны должен иметь значение \str{BLR}.
+В группе DG10 должно задаваться значение, соответствующее
+гражданству владельца КТ (значение \str{BLR} для граждан Республики Беларусь), 
+и значение \str{XXX}, если владелец КТ не имеет гражданства 
+или его граждаство не определено.
 
-Дата окончания действия КТ в группе DG3, дата рождения в группе DG8 
+Дата окончания действия КТ в группе DG3, дата рождения владельца КТ в группе DG8 
 и дата выпуска КТ в группе DG15 должны иметь формат YYYYMMDD 
 (4 символа года, 2 символа месяца, 2 символа 
 числа месяца). В случае, если дата рождения известна не полностью, 
@@ -130,8 +153,14 @@ OptionalData ::= SEQUENCE {
 если он в действительности точно не известен (в последнем случае 
 указывается приблизительный год рождения). 
 
-Место рождения в группе DG9 и адрес постоянного места жительства в группе 
-DG17, как правило, представляются структурированным типом \verb|Place|, 
+Личный номер владельца КТ в группе DG7 должен устанавливаться в соответствии с правилами,
+заданными в СТБ 34.101.78 для идентификационного атрибута \str{serialNumber}. 
+При этом для личного номера должен использоваться префикс \str{PSOXX},
+где символы \str{XX} определяют двухсимвольный код страны согласно~\cite{CountryCodes}, 
+в которой зарегистрирован номер, например, \str{PNOBY-786545091A4PB5}.
+
+Место рождения владельца КТ в группе DG9 и адрес постоянного места жительства 
+владельца КТ в группе DG17, как правило, представляются структурированным типом \verb|Place|, 
 компоненты которого имеют следующее значение: 
 
 \begin{enumerate}
@@ -151,11 +180,11 @@ DG17, как правило, представляются структуриро
 Для задания адреса в произвольном виде можно воспользоваться компонентом 
 \verb|freetextPlace| типа \verb|GeneralPlace|. Если владелец КТ не проживает в 
 Республике Беларусь, то в~\verb|GeneralPlace| должен быть выбран компонент 
-\verb|noPlaceInfo| со значением \str{Не пражывае ў РБ / Не проживает в РБ}. 
-Если информация о месте жительства или месте рождения владельца 
+\verb|noPlaceInfo| со значением \str{Не пражывае ў РБ/Не проживает в РБ}. 
+Если информация месте рождения или месте жительства 
 КТ не известна, то в \verb|GeneralPlace| 
 должен быть выбран компонент \verb|noPlaceInfo| со значением 
-\str{Інфармацыя адсутнічае / Информация отсутствует}. 
+\str{Інфармацыя адсутнічае/Информация отсутствует}. 
 
 %\doubt{В группе DG13 должны быть заданы фамилия, имя и 
 %отчество (при наличии) владельца КТ, данные ему при рождении.}
@@ -163,29 +192,36 @@ DG17, как правило, представляются структуриро
 В группе DG14 должна быть задано изображение ручной подписи
 владельца КТ в кодировке JPEG 2000~\cite{JPEG2000}.
 
+В группе DG16 должен быть указан орган, который выдает КТ владельцу.
+
+\if 0
+
+\if 0
 Код региона в группе DG18 должен состоять из последовательности 
 шестнадцатеричных цифр, которая однозначно идентифицирует определенную 
 местность. Правила идентификации в настоящем стандарте не рассматриваются. 
 Если в группе DG17 отсутствует адрес постоянного места жительства, то 
 группа DG18 должна быть пустой. 
+\fi
 
 Вид на жительство в группах DG19 и DG20 описывается типом \verb|Text|. 
 В этом типе компонент \verb|compressed| является результатом сжатия компонента 
 \verb|uncompressed|. Для сжатия должен использоваться алгоритм, 
 определенный в~\cite{DEFLATE}. 
+\fi
 
-Номер телефона в группе DG21 должен быть
+Номер телефона владельца КТ в группе DG21 должен быть
 представлен в синтаксисе global-number согласно~\cite{RFC3966}. 
 
 В группе DG22 может быть задан адрес электронной 
 почты владельца КТ. 
 
-В группах данных DG4, DG5, DG7, DG9, DG17 информация
+В группах данных DG4, DG5, DG6, DG9, DG17 информация
 представляется на белорусском и русском языках.
 Для разделения информации, представленной на разных языках,
-должен использоваться симовл \str{/}, отделенный от информации 
-слева и справа пробелом, например, в DG5 фамилия 
-представляется в виде \str{МIЦКЕВIЧ / МИЦКЕВИЧ}.
+должен использоваться симовл \str{/}, например, в DG5 фамилия 
+представляется в виде \str{МIЦКЕВIЧ/МИЦКЕВИЧ}.
+Если владельца КТ отсутствует отчество, то группа DG6 должна быть пустой. 
 
 При хранении групп на КТ они должны кодироваться с помощью отличительных 
 правил, описанных в СТБ 34.101.19 (приложение Б). 
