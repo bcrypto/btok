@@ -9,7 +9,7 @@
 %
 Непосредстенно идентификационные атрибуты владельца КТ располагаются 
 в группах DG4 -- DG12, DG17, DG18, DG21, DG22. 
-Группы DG13, DG18, DG19, DG20 зарезервированы для будущего 
+Группы DG13, DG19, DG20 зарезервированы для будущего 
 применения, в настоящем стандарте они не определяются. 
 
 \begin{table}[h!]
@@ -372,6 +372,9 @@ EIDAccess ::= OCTET STRING(SIZE(5))
 соответствующего определенному биту, означает, что значение этого бита 
 определяется правами, заданными в других строках.  
 
+
+\if 0
+
 \begin{table}[h!]
 \caption{Слово прав доступа к прикладной программе eID}
 \label{Table.DATA.Access}
@@ -434,7 +437,49 @@ EIDAccess ::= OCTET STRING(SIZE(5))
 \hline                                                                           
 \end{tabular}
 \end{table}
-                                                                             
+
+\fi
+
+
+\begin{table}[h!]
+\caption{Слово прав доступа к прикладной программе eID}
+\label{Table.DATA.Access}
+\begin{tabular}{|c|p{13cm}|}
+\hline
+Номера битов & Права доступа\\
+\hline
+\hline
+0 & право проверки возраста (атрибут \verb|AgeVerification|)\\
+\hline 
+1  &  право проверки принадлежности к региону (атрибут \verb|PlaceVerification|)\\
+\hline 
+2,3 & зарезервировано на будущее\\
+\hline 
+4 & право доступа по паролю CAN\\
+\hline
+5 & право управлять паролем PIN\\
+\hline 
+6,7 & зарезервировано на будущее\\
+\hline 
+8  &  право на чтение DG1\\
+\hline 
+\dots &	\dots\\
+\hline 
+29 &  право на чтение DG22\\
+\hline
+30,31 & зарезервировано на будущее\\
+\hline 
+32 & право записи в DG22\\
+\hline
+\dots &	\dots  \\
+\hline
+37 & право записи в DG17\\
+\hline 
+38, 39 &	 зарезервировано на будущее\\
+\hline                                                                
+\end{tabular}
+\end{table}
+                                                                            
 Например, слово 
 $$
 00000000\ 00111100\ 01101111\ 01011011\ 00010000 = \texttt{003С6F5B10}_{16}
@@ -465,6 +510,7 @@ ESignAccess ::= OCTET STRING(SIZE(2))
 к прикладной программе eSign. Для данной таблицы используются обозначения,
 аналогичные таблице~\ref{Table.DATA.Access}.
 
+\if 0
 \begin{table}[h!]
 \caption{Слово прав доступа к прикладной программе eSign}
 \label{Table.DATA.SMTAccess}
@@ -529,5 +575,5 @@ ESignAccess ::= OCTET STRING(SIZE(2))
 \hline 
 \end{tabular}
 \end{table}
-
+\fi
 
