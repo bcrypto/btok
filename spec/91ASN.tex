@@ -33,7 +33,7 @@
 %
 \verb|id-SignAuthExt| &
 расширение с правами доступа к прикладной программе eSign 
-(см.~\ref{CERTS.Light});\\
+(см.~\ref{CERTS.Format});\\
 %
 \verb|btok-bauth| &
 полный протокол BAUTH 
@@ -69,6 +69,11 @@ BAUTH, присваивается идентификатор \verb|bign-pubkey|,
 Btok-module-v1 {iso(1) member-body(2) by(112) 0 2 0 34 101 79 module(1) ver1(1)}
 DEFINITIONS IMPLICIT TAGS::=
 BEGIN
+  IMPORTS 
+    PublicKey 
+      FROM Bign-module-v2 {iso(1) member-body(2) by(112) 0 2 0 34 101 45 
+        module(1) ver2(2)};
+
   btok OBJECT IDENTIFIER ::= {iso(1) member-body(2) by(112) 0 2 0 34 101 79}
 
   btok-bauth OBJECT IDENTIFIER ::= {btok 11}
@@ -166,7 +171,7 @@ BEGIN
 
   PubKey ::= SEQUENCE {
     objIdentifier             OBJECT IDENTIFIER,
-    pubKeyandParameters       ANY DEFINED BY objIdentifier 
+    pubKeyandParameters       PublicKey 
   }
 
   CertHAT ::= SEQUENCE {
