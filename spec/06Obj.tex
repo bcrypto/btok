@@ -142,9 +142,9 @@ $l=192$~--- двойкой и~$l=256$~--- тройкой.
 атрибуты~\verb|CKA_VERIFY|, \verb|CKA_WRAP| открытого ключа должны принимать 
 значение~\verb|CK_TRUE|.
 \item
-Атрибут~\verb|CKA_ALLOWED_MECHANISMS| должен включать механизмы~\verb|CKM_BIGN|
-и \verb|CKM_BIGN_TSP|.
-
+Атрибут~\verb|CKA_ALLOWED_MECHANISMS| должен включать механизм~\verb|CKM_BIGN_TSP|,
+а также механизм~\verb|CKM_BIGN_HBELT| при уровне стойкости~$l=128$ или
+механизм~\verb|CKM_BIGN_BASH| при уровне стойкости~$l=192$ и $l=256$.
 \end{enumerate}
 
 \section{Сертификаты}\label{OBJ.Certs}
