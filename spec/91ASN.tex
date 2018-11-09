@@ -5,7 +5,7 @@
 
 \hiddensection{Идентификаторы}
 
-Объектам назначаются следующие идентификаторы:
+Идентификаторы АСН.1 назначаются следующим объектам, введенным в настоящем стандарте:
 \begin{center}
 \begin{tabular}{p{4.5cm}p{11.5cm}}
 \verb|id-DocumentValidity| &
@@ -33,7 +33,7 @@
 %
 \verb|id-SignAuthExt| &
 расширение с правами доступа к прикладной программе eSign 
-(см.~\ref{CERTS.Light});\\
+(см.~\ref{CERTS.Format});\\
 %
 \verb|btok-bauth| &
 полный протокол BAUTH 
@@ -49,19 +49,7 @@
 BAUTH, присваивается идентификатор \verb|bign-pubkey|, определенный в СТБ 
 34.101.45 (приложение Д).
 
-\hiddensection{Описание долговременного открытого ключа}
-
-На уровне стойкости~$l$ долговременному открытому ключу~$Q$ ставится в 
-соответствие двоичное слово $\langle Q\rangle_{4l}$, для описания которого может 
-использоваться тип \verb|PublicKey|, определенный в СТБ 34.101.45 (приложение~Д). 
-
-В запросе на получение сертификата (см. СТБ 34.101.17), в сертификатах (см. СТБ 
-34.101.19) открытый ключ должен представляться значениями типа 
-\verb|SubjectPublicKeyInfo|. Этот тип также определен в СТБ 34.101.45 
-(приложение~Д). 
-
-\hiddensection{Модуль АСН.1}
-\label{ASN.modul}
+\hiddensection{Модуль}
 
 %    ArtisticName ::= [APPLICATION 6] UTF8String
 %    BirthName ::= [APPLICATION 13] UTF8String
@@ -70,6 +58,11 @@ BAUTH, присваивается идентификатор \verb|bign-pubkey|,
 Btok-module-v1 {iso(1) member-body(2) by(112) 0 2 0 34 101 79 module(1) ver1(1)}
 DEFINITIONS IMPLICIT TAGS::=
 BEGIN
+  IMPORTS 
+    PublicKey 
+      FROM Bign-module-v2 {iso(1) member-body(2) by(112) 0 2 0 34 101 45 
+        module(1) ver2(2)};
+
   btok OBJECT IDENTIFIER ::= {iso(1) member-body(2) by(112) 0 2 0 34 101 79}
 
   btok-bauth OBJECT IDENTIFIER ::= {btok 11}
@@ -167,7 +160,7 @@ BEGIN
 
   PubKey ::= SEQUENCE {
     objIdentifier             OBJECT IDENTIFIER,
-    pubKeyandParameters       ANY DEFINED BY objIdentifier 
+    pubKeyandParameters       PublicKey 
   }
 
   CertHAT ::= SEQUENCE {
