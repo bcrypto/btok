@@ -48,7 +48,7 @@ $\text{res*} = \text{RDF*} \parallel \text{SW1} \parallel \text{SW2}$
 \hline
 Индикатор совместно с зашифрованными данными & не менее 2 & $\hex{87}$ \\
 \hline
-Защищенное значение Le & 2 или 3 & $\hex{97}$\\
+Защищенное значение Le & 1 -- 3 & $\hex{97}$\\
 \hline
 Защищенные статусы SW1 и SW2 & 2 & $\hex{99}$ \\
 \hline      
@@ -76,7 +76,7 @@ $Y$ кодируются с помощью следующего алгоритм
 
 \begin{enumerate}
 \item
-Установить $Z \gets I \in \hex{04000000}$.
+Установить $Z \gets I \oplus \hex{04000000}$.
 
 \item
 Если $|Y| > 0$, то $Z \gets Z \parallel \der(\hex{87}, \hex{02}\parallel Y)$.
@@ -92,7 +92,7 @@ $Y$ кодируются с помощью следующего алгоритм
 
 \begin{enumerate}
 \item
-Установить $Z\gets I \in \hex{04000000}$.
+Установить $Z\gets I \oplus \hex{04000000}$.
 \item
 Положить переменную W равной пустому слову.
 \item
