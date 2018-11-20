@@ -5,15 +5,19 @@
 %%%%%%%%%%%  Format %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\doubt}[1]{{\textcolor{red}{#1}}}
-\newcommand{\addendum}[1]{\textcolor{black}{#1}}
+\newcommand{\addendum}[1]{\textcolor{blue}{#1}}
 \newcommand{\old}[1]{}
 
 \newcommand\str[1]{\texttt{\textsf{'}#1\textsf{'}}\xspace}
+\newcommand\btoi[1]{\ensuremath{\textcolor{blue}{\lfloor} #1\textcolor{blue}{\rceil}}}
+\newcommand\itob[2][]{\ensuremath{\ifthenelse{\isempty{#1}{}}
+	{\langle #1\rangle}{\langle #1\rangle_{#2}}}}
 
 \newcommand{\optional}[1]{$\mathbf{\bigl[}$#1$\mathbf{\bigr]}$}
 \newcommand{\mathoptional}[1]{\ensuremath{\mathbf{\bigl[}#1\mathbf{\bigr]}}}
 \newcommand{\implicit}[1]{$\mathbf{\bigl\{}$#1$\mathbf{\bigr\}}$}
 \newcommand{\mathimplicit}[1]{\ensuremath{\mathbf{\bigl\{}#1\mathbf{\bigr\}}}}
+
 
 \newcommand\algname[1]{\texttt{#1}\xspace}
 
