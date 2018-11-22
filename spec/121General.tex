@@ -105,19 +105,16 @@ SW2 & Статус ответа & 1 \\
 формата или формата вложенных кодированных данных, то разбор 
 должен быть завершен с ошибкой. 
 
-\addendum{
 Команды используются для реализации операций, поддерживаемых КТ.
-Минимальный \addendum{набор операций} определяется в~\ref{Oper.Descr}
-и кратко описан в таблице~\ref{Table.Oper.List}. 
+Минимальный набор операций определяется в~\ref{Oper.Descr}
+и кратко \doubt{описывается} в таблице~\ref{Table.Oper.List}. 
 %
 В таблице для каждой операции указываются состояния КТ, 
 в которых операция может выполняться (см.~\ref{STATES}),
 и пароли, которые должны использоваться в протоколе BPACE (см.~\ref{OBJ.PWD}).  
 %
 Символ <</>> в таблице обозначает <<или>>.
-}
 
-\addendum{
 Команды могут работать с файловой системой КТ, определенной в 
 приложении~\ref{FILES}. Файловая система имеет иерархическую структуру.
 Имеются назначенные файлы, которые содержат ссылки на подчиненные файлы,
@@ -125,9 +122,7 @@ SW2 & Статус ответа & 1 \\
 Выделен корневой мастер-файл, которому подчинены (прямо или по цепочке)
 все остальные файлы. Прикладным программам eID и eSign соответствуют 
 специальные назначенные файлы, непосредственно подчиненные мастер-файлу.
-}
 
-\addendum{
 В файловой системе всегда выбран определенный файл. Первоначально это 
 мастер-файл. Выбор прикладных программ eID и eSign реализуется 
 выбором соответствующих назначенных файлов. 
@@ -135,7 +130,6 @@ SW2 & Статус ответа & 1 \\
 выбран в текущий момент времени: мастер-файл (MF), файл eID или подчиненный 
 ему, файл eSign или подчиненный ему. Разрешенные уровни приводятся в последнем 
 столбце таблицы~\ref{Table.Oper.List}.
-}
 
 \begin{table}[p]
 \caption{Операции КТ}
@@ -146,28 +140,32 @@ SW2 & Статус ответа & 1 \\
 \hline
 \hline
 %1~
-Активация личного ключа & \ref{Oper.Descr.ActivateKey} & PS/AS:AT & PIN & eSign \\
+Активация личного ключа & \ref{Oper.Descr.ActivateKey} & PS/AS:AT & PIN & eSign\\ 
 \hline
 %2~
-Активация PIN & \ref{Oper.Descr.ActivatePIN} & PS/AS:AT & PUK & eID/eSign \\
+Активация PIN & \ref{Oper.Descr.ActivatePIN} & PS/AS:AT & PUK & eID/eSign\\
 \hline
 %3~
 Выбор мастер-файла & \ref{Oper.Descr.SelectMF} & IS/PS/AS & любой & все \\
 \hline
 %4~
-Выбор прикладной программы & \ref{Oper.Descr.SelectApp} & PS/AS & любой & все \\
+Выбор прикладной программы & \ref{Oper.Descr.SelectApp} & PS/AS & любой & все\\ 
 \hline
 %5~
-Выбор элементарного файла eID & \ref{Oper.Descr.SelectEF} & AS:AT & CAN/PIN & eID \\
+Выбор элементарного файла eID & \ref{Oper.Descr.SelectEF} & AS:AT & CAN/PIN & 
+eID \\ 
 \hline
 %6~
-Выбор элементарного файла eSign & \ref{Oper.Descr.SelectEF} & PS/AS:AT & PIN & eSign \\
+Выбор элементарного файла eSign & \ref{Oper.Descr.SelectEF} & PS/AS:AT & PIN & 
+eSign \\ 
 \hline
 %7~
-Выполнение основных шагов протокола BAUTH & \ref{Oper.Descr.GABAUTH} & PS & любой & MF \\
+Выполнение основных шагов протокола BAUTH & \ref{Oper.Descr.GABAUTH} & PS & 
+любой & MF \\ 
 \hline
 %8~
-Выполнение шагов протокола BPACE & \ref{Oper.Descr.GABPACE} & IS/PS/AS:CP & ---/любой & MF \\
+Выполнение шагов протокола BPACE & \ref{Oper.Descr.GABPACE} & IS/PS/AS:CP & 
+---/любой & MF \\ 
 \hline
 %9~
 Выработка подписи & \ref{Oper.Descr.Signature} & PS/AS:AT & PIN & eSign \\
@@ -176,25 +174,30 @@ SW2 & Статус ответа & 1 \\
 Генерация ключевой пары & \ref{Oper.Descr.GenKeys} & PS/AS:AT & PIN & eSign \\
 \hline
 %11~
-Деактивация личного ключа & \ref{Oper.Descr.DeactivateKey}  & PS/AS:AT & PIN & eSign \\
+Деактивация личного ключа & \ref{Oper.Descr.DeactivateKey}  & PS/AS:AT & PIN & 
+eSign\\ 
 \hline
 %12~
-Деактивация PIN & \ref{Oper.Descr.DeactivatePIN}  & PS/AS:AT & PIN/PUK & eID/eSign \\
+Деактивация PIN & \ref{Oper.Descr.DeactivatePIN}  & PS/AS:AT & PIN/PUK & 
+eID/eSign\\ 
 \hline
 %13~
 Изменение PIN & \ref{Oper.Descr.ChangePIN} & PS/AS:CP & PIN & eID/eSign \\
 \hline
 %14~
-Инициализация алгоритма выработки подписи & \ref{Oper.Descr.SetDST} & PS/AS:AT & PIN & eSign \\
+Инициализация алгоритма выработки подписи & \ref{Oper.Descr.SetDST} & PS/AS:AT 
+& PIN & eSign \\ 
 \hline
 %15~
-Инициализация алгоритма разбора токена ключа & \ref{Oper.Descr.SetCT} & PS/AS:AT & PIN & eSign \\
+Инициализация алгоритма разбора токена ключа & \ref{Oper.Descr.SetCT} & 
+PS/AS:AT & PIN & eSign \\ 
 \hline
 %16~
-Инициализация протокола BAUTH & \ref{Oper.Descr.SetBAUTH} & PS & любой & MF \\
+Инициализация протокола BAUTH & \ref{Oper.Descr.SetBAUTH} & PS & любой & MF \\ 
 \hline
 %17~
-Инициализация протокола BPACE & \ref{Oper.Descr.SetBPACE} & IS/PS/AS:CP & ---/любой & MF \\
+Инициализация протокола BPACE & \ref{Oper.Descr.SetBPACE} & IS/PS/AS:CP & 
+---/любой & MF \\ 
 \hline
 %18~
 Обновление данных eID & \ref{Oper.Descr.Update} & AS:AT & CAN/PIN & eID \\
@@ -203,28 +206,33 @@ SW2 & Статус ответа & 1 \\
 Обновление данных eSign & \ref{Oper.Descr.Update} & PS/AS:AT & PIN & eSign \\
 \hline
 %20~
-Переключение между соединениями & \ref{Oper.Descr.SetCS} & AS & PIN/PUK & eID/eSign \\
+Переключение между соединениями & \ref{Oper.Descr.SetCS} & AS & PIN/PUK & 
+eID/eSign \\ 
 \hline
 %21~
 Подтверждение PIN & \ref{Oper.Descr.VerifyPIN} & PS/AS:CP & PIN & eSign \\
 \hline
 %22~
-Проверка дополнительного атрибута& \ref{Oper.Descr.VerifyData}& AS:AT & CAN/PIN & eID \\
+Проверка дополнительного атрибута& \ref{Oper.Descr.VerifyData}& AS:AT & CAN/PIN 
+& eID \\ 
 \hline
 %23~
 Проверка сертификата & \ref{Oper.Descr.VerifyCert} & PS & любой & MF \\
 \hline
 %24~
-Проверка \addendum{флага} подтверждения PIN & \ref{Oper.Descr.VerifyAuth} & PS/AS:AT & PIN & eSign \\
+Проверка флага подтверждения PIN & \ref{Oper.Descr.VerifyAuth} & PS/AS:AT & PIN 
+& eSign \\ 
 \hline
 %25~
-Разблокировка PIN & \ref{Oper.Descr.UnblockPIN} & PS/AS:CP  & PUK & eID/eSign \\
+Разблокировка PIN & \ref{Oper.Descr.UnblockPIN} & PS/AS:CP  & PUK & eID/eSign\\ 
 \hline
 %26~
-Разбор токена ключа & \ref{Oper.Descr.Decipher} & PS/AS:AT & PIN & eSign \\
+Разбор токена ключа & 
+\ref{Oper.Descr.Decipher} & PS/AS:AT & PIN & eSign \\
 \hline
 %27~
-Сброс \addendum{флага} подтверждения PIN & \ref{Oper.Descr.VerifyDeauth} & PS/AS:AT  & PIN & eSign \\
+Сброс флага подтверждения PIN & \ref{Oper.Descr.VerifyDeauth} & 
+PS/AS:AT  & PIN & eSign \\ 
 \hline
 %28~
 Чтение данных eID & \ref{Oper.Descr.Read} & AS:AT & CAN/PIN & eID \\

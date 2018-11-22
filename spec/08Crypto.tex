@@ -80,7 +80,7 @@ $p$, $a$, $b$, $q$ и $G$, заданные в СТБ 34.101.45 (приложе�
 определенный в СТБ 34.101.31. Входными данными алгоритма являются 
 защищенный ключ $Y\in\{0,1\}^{8*}$, заголовок $I\in\{0,1\}^{128}$, 
 ключ защиты $K\in\{0,1\}^{256}$. Выходными данными является либо признак 
-ошибки~$\perp$, либо первоначальный ключ \addendum{$X\in\{0,1\}^{|Y|-128}$}.
+ошибки~$\perp$, либо первоначальный ключ $X\in\{0,1\}^{|Y|-128}$.
 
 {\bf Алгоритм \texttt{belt-keyrep}}.
 Используется алгоритм преобразования ключа 
@@ -253,13 +253,13 @@ $u_\text{КТ}\in\{1,2,\ldots,q-1\}$ и соответствующий откр�
 
 {\bf Одноразовый секретный ключ}.
 КТ генерирует и пересылает терминалу одноразовый 
-секретный ключ \addendum{$R_\text{КТ}\in\{0,1\}^{2l}$}.
+секретный ключ $R_\text{КТ}\in\{0,1\}^{l}$.
 Ключ должен генерироваться в соответствии с требованиями~\ref{OBJ.RNG}.
 
 {\bf Защищенный одноразовый ключ}.
 Ключ $R_\text{КТ}$ защищается с помощью алгоритма 
 \texttt{belt-keywrap} и пересылается в виде 
-слова~$Y_\text{КТ}\in\{0,1\}^{256}$.
+слова~$Y_\text{КТ}\in\{0,1\}^{l+128}$.
 
 {\bf Служебный ключ~$K$}.
 Для защиты~$R_\text{КТ}$ используется служебный 
@@ -299,7 +299,7 @@ $K_1\in\{0,1\}^{256}$. Ключ должен быть уничтожен пос�
 Ключ должен быть уничтожен после использования.
 
 {\bf Переменная $t$}.
-Используется переменная~\addendum{$t\in\{0,1\}^l$}.
+Используется переменная~$t\in\{0,1\}^l$.
 
 \subsection{Сообщения}
 
@@ -310,8 +310,8 @@ $\mathimplicit{\hello_\text{Т}\parallel}\
 \Cert(Id_\text{Т}, Q_\text{Т})$;
 
 M1 ($\text{КТ}\to\text{Т}$): 
-\addendum{$\mathimplicit{\hello_\text{КТ}\parallel}\ 
-\langle V_\text{КТ}\rangle_{4l}\parallel Y_\text{КТ}$};
+$\mathimplicit{\hello_\text{КТ}\parallel}\ 
+\langle V_\text{КТ}\rangle_{4l}\parallel Y_\text{КТ}$;
 
 M2 ($\text{Т}\to\text{КТ}$): 
 $T_\text{Т}\ \mathoptional{\parallel R_\text{Т}}$;
@@ -338,7 +338,7 @@ $\mathoptional{Z_\text{КТ}\parallel T_\text{КТ}}$.
 \item
 \implicit{проверяет~$\Cert(Id_\text{Т}, Q_\text{Т})$};
 \item 
-$R_\text{КТ}\stackrel{R}\gets\{0,1\}^{128}$ 
+$R_\text{КТ}\stackrel{R}\gets\{0,1\}^l$ 
 (в соответствии с требованиями~\ref{CRYPTO.BAUTH.Vars});
 \item
 $(u_\text{КТ}, V_\text{КТ})\gets\texttt{bign-genkeypair}()$;
@@ -392,13 +392,13 @@ $K_1\gets\texttt{bake-kdf}(R_\text{КТ},
 \optional{$K_2\gets\texttt{bake-kdf}(R_\text{КТ}, R_\text{Т}\parallel
 \hello_\text{Т}\parallel\hello_\text{КТ}, 2)$};
 \item
-\addendum{\optional{$t\gets\langle\texttt{belt-hash}
-(\langle V_\text{КТ}\rangle_{2l}\parallel R_\text{Т})\rangle_l$}};
+\optional{$t\gets\langle\texttt{belt-hash}
+(\langle V_\text{КТ}\rangle_{2l}\parallel R_\text{Т})\rangle_l$};
 \item
-\addendum{\optional{$s_\text{КТ}\gets(u_\text{КТ}-(2^{l}+\btoi{t})d_\text{КТ})\bmod q$}}; 
+\optional{$s_\text{КТ}\gets(u_\text{КТ}-(2^{l}+\btoi{t})d_\text{КТ})\bmod q$}; 
 \item
-\addendum{\optional{$Z_\text{КТ}\gets\texttt{belt-cfb}(\langle s_\text{КТ}\rangle_{2l}
-\parallel\Cert(Id_\text{КТ}, Q_\text{КТ}), K_2, 0^{128})$}};
+\optional{$Z_\text{КТ}\gets\texttt{belt-cfb}(\langle s_\text{КТ}\rangle_{2l}
+\parallel\Cert(Id_\text{КТ}, Q_\text{КТ}), K_2, 0^{128})$};
 \item
 \optional{$T_\text{КТ}\gets\texttt{belt-mac}(Z_\text{КТ}, K_1)$};
 \item
@@ -411,18 +411,18 @@ $K_1\gets\texttt{bake-kdf}(R_\text{КТ},
 \item
 проверяет, что $T_\text{КТ} = \texttt{belt-mac}(Z_\text{КТ}, K_1)$;
 \item
-\addendum{$(\langle s_\text{КТ}\rangle_{2l}\parallel\Cert(Id_\text{КТ}, Q_\text{КТ})) 
-\gets \texttt{belt-cfb}^{-1}(Z_\text{КТ}, K_2, 0^{128})$};
+$(\langle s_\text{КТ}\rangle_{2l}\parallel\Cert(Id_\text{КТ}, Q_\text{КТ})) 
+\gets \texttt{belt-cfb}^{-1}(Z_\text{КТ}, K_2, 0^{128})$;
 \item
 проверяет, что $s_{КТ} \in\{0, 1,\ldots, q-1\}$;
 \item
 проверяет $\Cert(Id_\text{КТ}, Q_\text{КТ})$;
 \item
-\addendum{$t\gets\langle\texttt{belt-hash}(\langle 
-V_\text{КТ}\rangle_{2l}\parallel R_\text{Т})\rangle_{l}$};
+$t\gets\langle\texttt{belt-hash}(\langle 
+V_\text{КТ}\rangle_{2l}\parallel R_\text{Т})\rangle_{l}$;
 \item
-проверяет, что \addendum{
-$s_\text{КТ}G + (2^{l} + \btoi{t})Q_\text{КТ} = V_\text{КТ}$}$\bigr]$.
+проверяет, что 
+$s_\text{КТ}G + (2^{l} + \btoi{t})Q_\text{КТ} = V_\text{КТ}\bigr]$.
 \end{enumerate}
 \end{enumerate}
 
