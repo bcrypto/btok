@@ -1,8 +1,8 @@
-﻿Btok-module-v1 {iso(1) member-body(2) by(112) 0 2 0 34 101 79 module(1) ver1(1)}
-DEFINITIONS IMPLICIT TAGS::=
+Btok-module-v1 {iso(1) member-body(2) by(112) 0 2 0 34 101 79 module(1) ver1(1)}
+DEFINITIONS IMPLICIT TAGS ::=
 BEGIN
-  IMPORTS 
-    PublicKey 
+  IMPORTS
+    PublicKey
       FROM Bign-module-v2 {iso(1) member-body(2) by(112) 0 2 0 34 101 45 
         module(1) ver2(2)};
 
