@@ -11,17 +11,17 @@
 
 \begin{verbatim}
 CVCertificate ::= [APPLICATION 33] SEQUENCE {
-  certificateBody ::= [APPLICATION 78] SEQUENCE {
-   certProfileIdentifier           [APPLICATION 41] INTEGER { v1(0) },
-   certAuthorityReference          [APPLICATION 2]  CharString,
-   publicKey                       [APPLICATION 73] PubKey,
-   certHolderReference             [APPLICATION 32] CharString,
-   certHolderAuthorizationTemplate [APPLICATION 76] CertHAT OPTIONAL,
-   certEffectiveDate               [APPLICATION 37] CVDate,
-   certExpirationDate              [APPLICATION 36] CVDate,
-   certExtensions                  [APPLICATION 5]  CVExt OPTIONAL 
+  certificateBody                   [APPLICATION 78] SEQUENCE {
+    certProfileIdentifier           [APPLICATION 41] INTEGER {v1(0)},
+    certAuthorityReference          [APPLICATION 2]  CharString,
+    publicKey                       [APPLICATION 73] PubKey,
+    certHolderReference             [APPLICATION 32] CharString,
+    certHolderAuthorizationTemplate [APPLICATION 76] CertHAT OPTIONAL,
+    certEffectiveDate               [APPLICATION 37] CVDate,
+    certExpirationDate              [APPLICATION 36] CVDate,
+    certExtensions                  [APPLICATION 5]  CVExt OPTIONAL 
   },
-  signature [APPLICATION 55] OCTET STRING
+  signature                         [APPLICATION 55] OCTET STRING
 }
 
 CharString ::= OCTET STRING (SIZE (8..16))
@@ -32,7 +32,6 @@ PubKey ::= SEQUENCE {
 }
 
 CVDate :: = NumericString (SIZE(6))
-
 CVExt ::= SEQUENCE OF DiscretionaryDataTemplate
 \end{verbatim}
 

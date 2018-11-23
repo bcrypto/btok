@@ -73,16 +73,6 @@ DG22 &	EMailAddress & Адрес электронной почты & \\
                          
 Группы данных описываются следующими одноименными типами АСН.1.
 В типах применяется неявное (\texttt{IMPLICIT}) тегирование.
-\if 0
-CommunityID ::= [APPLICATION 18] OCTET STRING
-ResidencePermitI ::= [APPLICATION 19] Text
-ResidencePermitII ::= [APPLICATION 20] Text
-
-Text ::= CHOICE {
-  uncompressed [1] UTF8String
-  compressed   [2] OCTET STRING
-}
-\fi
 \begin{verbatim}
 SerialNumber ::= [APPLICATION 1] PrintableString(SIZE (7..64))
 IssuingState ::= [APPLICATION 2] Country
@@ -108,6 +98,7 @@ ICAOString ::= PrintableString (FROM ("A".. "Z" | " "))
 Country ::= ICAOString (SIZE (3))
 ICAOSex ::= PrintableString (FROM ("M"|"F"|" "))
 Date ::= NumericString (SIZE (8))
+
 Place ::= SEQUENCE {
   street  [10] UTF8String OPTIONAL,
   city    [11] UTF8String,
@@ -115,11 +106,13 @@ Place ::= SEQUENCE {
   country [13] Country,
   zipcode [14] PrintableString OPTIONAL
 }
+
 GeneralPlace ::= CHOICE {
   structuredPlace Place
   freetextPlace   [1] UTF8String
   noPlaceInfo     [2] UTF8String
 }
+
 OptionalData ::= SEQUENCE {
   type OBJECT IDENTIFIER,
   data ANY DEFINED BY type OPTIONAL
@@ -277,7 +270,7 @@ AgeVerification и PlaceVerification. Дополнительным атрибу�
 заданном следующим типом АСН.1: 
 %
 \begin{verbatim}
-AuthAuxData ::= [APPLICATION 7] SEQUENCE of DiscretionaryDataTemplate;
+AuthAuxData ::= [APPLICATION 7] SEQUENCE OF DiscretionaryDataTemplate
 
 DiscretionaryDataTemplate ::= [APPLICATION 19] SEQUENCE {
   objIdentifier  OBJECT IDENTIFIER,
@@ -317,7 +310,7 @@ PlaceVerification &	\verb|id-PlaceVerification| & $\texttt{92}_{16}$ &
 \begin{verbatim}
 CertHAT ::= [APPLICATION 76] SEQUENCE {
   objId              OBJECT IDENTIFIER,
-  discretionaryData  [APPLICATION 19] OCTET STRING OPTIONAL
+  discretionaryData  OCTET STRING OPTIONAL
 }
 \end{verbatim}
 
@@ -335,10 +328,6 @@ CertHAT ::= [APPLICATION 76] SEQUENCE {
 значение \verb|id-eIdAccess|, определенное в приложении~\ref{ASN}. 
 Компонент \verb|discretionaryData| должен присутствовать и 
 должен состоять из 5 октетов.
-
-%\begin{verbatim}
-%EIDAccess ::= OCTET STRING(SIZE(2))
-%\end{verbatim}
 
 Эти октеты определяют двоичное слово длины~$40$.
 Биты слова нумеруются справа налево, начиная с 0. 
@@ -417,10 +406,6 @@ DG4~--- DG7, DG9~--- DG12, DG14, DG15, DG17, DG18, DG21, DG22.
 должен принимать значение \verb|id-eSignAccess|, определенное в 
 приложении~\ref{ASN}. Компонент \verb|discretionaryData| должен 
 присутствовать и должен состоять из 2 октетов.
-
-%\begin{verbatim}
-%ESignAccess ::= OCTET STRING(SIZE(2))
-%\end{verbatim}
 
 Эти октеты определяют двоичное слово длины~$16$. 
 Биты слова нумеруются справа налево, начиная с 0. 
