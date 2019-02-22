@@ -1,56 +1,50 @@
 \section{Формат сообщений защищенного соединения}
 \label{CMDS.SM}
 
-Команда и ответ на команду передаются в виде сообщений 
+Команда и ответ на команду передаются в виде двоичных слов 
 $\text{cmd} = \text{CLA} \parallel \text{INS} \parallel \text{P1} \parallel 
 \text{P2} \parallel \text{Lc} \parallel \text{CDF} \parallel \text{Le}$ и 
 $\text{res} = \text{RDF} \parallel \text{SW1} \parallel \text{SW2}$ 
-соответственно, где 
-Lc, CDF, Le и RDF в зависимости от инструкции и параметров команды могут 
-быть пустыми словами, т.е. отсутствовать (см.~\ref{CMDS.Intro}). 
+соответственно (см.~таблицу~\ref{Table.CMDS.Fmt}). 
+%
+Компоненты Lc, CDF, Le и RDF могут быть пустыми словами, т.~е. отсутствовать.
 
-При передаче по защищенному соединению команда cmd и ответ res 
-преобразуются в защищенную команду 
+Команда cmd преобразуются в защищенную команду 
 $\text{cmd*} = \text{CLA*} \parallel \text{INS} \parallel \text{P1} 
 \parallel \text{P2} \parallel \text{Lс*} \parallel \text{CDF*} 
-\parallel \text{Le*}$ и защищенный ответ 
-$\text{res*} = \text{RDF*} \parallel \text{SW1} \parallel \text{SW2}$ 
-соответственно. Для защищенных команд и ответов все компоненты имеют 
-ненулевую длину. 
+\parallel \text{Le*}$, а ответ~res~--- в защищенный ответ 
+$\text{res*} = \text{RDF*} \parallel \text{SW1} \parallel \text{SW2}$. 
+%
+В защищенных командах и ответах все компоненты имеют ненулевую длину. 
 
-Для защищенной команды в CLA* устанавливается один из битов, который 
-является признаком защиты, Lc* кодирует длину компонента CDF* 
-(см.~\ref{CMDS.Intro}), а Le* всегда устанавливается в $\hex{00}$.  
+Компонент CLA* защищенной команды получается из CLA установкой признака 
+(бита) защиты, Lc* кодирует длину компонента CDF* (см.~\ref{CMDS.Intro}), 
+а Le* всегда устанавливается в $\hex{00}$.   
+%
+В CDF* включаются зашифрованный компонент CDF (если он непуст), 
+компонент Le (если непуст) и имитовставка (обязательно). 
 
-В CDF* могут включаться зашифрованный компонент CDF (совместно с 
-индикатором, который является признаком наличия зашифрованных данных) и 
-компонент Le, а также обязательно включается имитовставка, используемая 
-для контроля целостности и подлинности команды.  Аналогично защищенной 
-команде для защищенного ответа в RDF* может включаться зашифрованный 
-компонент RDF (совместно с индикатором наличия зашифрованных данных) и 
-обязательно включается имитовставка, используемая для контроля 
-целостности и подлинности ответа. 
+Аналогично компонент RDF* защищенного ответа включает зашифрованный 
+компонент RDF (если он непуст) и имитовставку (обязательно). 
 
-При формировании компонент CDF* и RDF*, включаемые в них объекты данных, 
+При формировании компонентов CDF* и RDF*, включаемые в них объекты данных
 кодируются с использованием отличительных правил (см.~\ref{CMDS.Intro}). 
-В таблице~\ref{Table.CMDS.CDFRDF} 
-приводятся объекты данных, которые могут включаться в CDF* и RDF*, и 
-указываются их допустимые длины и теги, используемые при кодировании 
-(некоторые из объектов данных могут включаться только в CDF* или RDF*). 
+В таблице~\ref{Table.CMDS.CDFRDF} приводятся допустимые объекты, 
+указываются их длины и теги, используемые при кодировании. 
 
 \begin{table}[h]
-\caption{Объекты данных компонент CDF* и RDF*}
+\caption{Объекты данных компонентов CDF* и RDF*}
 \label{Table.CMDS.CDFRDF}
 \begin{tabular}{|c|c|c|}
 \hline
-Описание объекта данных & Длина & Тег \\
+Описание объекта данных & Длина (в октетах) & Тег \\
 \hline
 \hline
-Индикатор совместно с зашифрованными данными & не менее 2 & $\hex{87}$ \\
+Зашифрованные данные (с индикатором защиты) & не менее 2 & $\hex{87}$ \\
 \hline
-Защищенное значение Le & 1 -- 3 & $\hex{97}$\\
+Длина Le & 1 -- 3 & $\hex{97}$\\
 \hline
-Защищенные статусы SW1 и SW2 & 2 & $\hex{99}$ \\
+Статусы SW1 и SW2 & 2 & $\hex{99}$ \\
 \hline      
 Имитовставка & 8 & $\hex{8E}$ \\
 \hline
@@ -61,6 +55,60 @@ $\text{res*} = \text{RDF*} \parallel \text{SW1} \parallel \text{SW2}$
 команд и ответов. При описании данных правил через~$\len(X)$ обозначается 
 длина непустого слова~$X$, закодированная минимально возможным количеством 
 октетов согласно~\ref{CMDS.Intro} для случая кодирования компонента Lc. 
+
+
+\begin{figure}[!h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+CLA & INS & P1 & P2 & Lc & CDF & Le \\
+\hline
+\hline
+\multicolumn{4}{|c|}{заголовок $I$} & [длина CDF] & [сообщение $X$] & [длина ответа]\\
+\hline
+\end{tabular}
+
+\vskip3pt$\Downarrow$\vskip3pt
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+CLA* & INS & P1 & P2 & Lc* & CDF* & Le \\
+\hline
+\hline
+\multicolumn{4}{|c|}{заголовок $I^*$} & [длина CDF*] & 
+$\left[\der(\hex{87},\hex{02}\parallel Y)\parallel\right]\ 
+\left[\der(\hex{97},\text{Le})\parallel\right]\ T$ & $\hex{00}$\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Защита команд}\label{Fig.CMDS.Cmd}
+\end{figure}
+
+\begin{figure}[!h]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+RDF & SW1 & SW2 \\
+\hline
+\hline
+[сообщение $X$] & \multicolumn{2}{|c|}{заголовок $I$} \\
+\hline
+\end{tabular}
+
+$\Downarrow$
+
+\begin{tabular}{|c|c|c|}
+\hline
+RDF* & SW1 & SW2 \\
+\hline
+\hline
+$\left[\der(\hex{87},\hex{02}\parallel Y)\parallel\right]\ T$ & 
+\multicolumn{2}{|c|}{заголовок $I$} \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Защита ответа}\label{Fig.CMDS.Answer}
+\end{figure}
 
 {\bf Защита команд}. 
 Команда защищается с помощью алгоритма~\ref{CRYPTO.SM.Algs.Encr}. 
@@ -76,38 +124,35 @@ $Y$ кодируются с помощью следующего алгоритм
 
 \begin{enumerate}
 \item
-Установить $Z \gets I \oplus \hex{04000000}$.
-
+Установить $Z \gets I\oplus\hex{04000000}$.
 \item
-Если $|Y| > 0$, то $Z \gets Z \parallel \der(\hex{87}, \hex{02}\parallel Y)$.
+Если $|Y| > 0$, то $Z \gets Z\parallel\der(\hex{87},\hex{02}\parallel Y)$.
 \item
-Если $\text{Le} > 0$, то $Z\gets Z \parallel \der(\hex{97}, \text{Le})$.
-
+Если $\text{Le} > 0$, то $Z\gets Z\parallel\der(\hex{97}, \text{Le})$.
 \item
-Возвратить $Z$ в качестве $\langle\langle I, Y \rangle\rangle$.
+Возвратить $Z$ в качестве $\langle\langle I, Y\rangle\rangle$.
 \end{enumerate}
 
-На шаге 3 алгоритма установки защиты заголовок $I$, защищенное сообщение $Y$ и 
+На шаге 4 алгоритма установки защиты заголовок $I$, защищенное сообщение $Y$ и 
 имитовставка $T$ кодируются с помощью следующего алгоритма: 
-
 \begin{enumerate}
 \item
-Установить $Z\gets I \oplus \hex{04000000}$.
+Установить $Z\gets I\oplus\hex{04000000}$.
 \item
 Положить переменную W равной пустому слову.
 \item
-Если $|Y| > 0$, то $W\gets \der(\hex{87}, \hex{02} \parallel Y)$.
+Если $|Y| > 0$, то $W\gets \der(\hex{87}, \hex{02}\parallel Y)$.
 \item
-Если $Le > 0$, то $W\gets W \parallel \der(\hex{97}, \text{Le})$.
+Если $Le > 0$, то $W\gets W\parallel\der(\hex{97}, \text{Le})$.
 \item
-Установить $W\gets W \parallel \der(\hex{8E}, T)$.
+Установить $W\gets W\parallel\der(\hex{8E}, T)$.
 \item
-Установить $Z\gets Z \parallel \len(W) \parallel W \parallel \hex{00}$.
+Установить $Z\gets Z\parallel\len(W)\parallel W\parallel\hex{00}$.
 \item
-Возвратить $Z$ в качестве $\langle\langle I, Y, T \rangle\rangle$.
+Возвратить $Z$ в качестве $\langle\langle I, Y, T\rangle\rangle$.
 \end{enumerate}
 
-Кодовое представление $\langle\langle I, Y, T \rangle\rangle$, полученное 
+Кодовое представление $\langle\langle I, Y, T\rangle\rangle$, полученное 
 в результате работы алгоритма, представляет собой защищенную команду cmd*. 
 
 {\bf Защита ответов}. 
