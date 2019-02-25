@@ -1,5 +1,7 @@
-\section{Формат сообщений защищенного соединения}
+\section{Управление защищенным соединением}
 \label{CMDS.SM}
+
+\subsection{Форматы сообщений}\label{CMDS.SM.Format}
 
 Команда и ответ на команду передаются в виде двоичных слов 
 $\text{cmd} = \text{CLA} \parallel \text{INS} \parallel \text{P1} \parallel 
@@ -18,8 +20,8 @@ $\text{res*} = \text{RDF*} \parallel \text{SW1} \parallel \text{SW2}$.
 В защищенных командах и ответах все компоненты имеют ненулевую длину. 
 
 Компонент CLA* защищенной команды получается из CLA установкой признака 
-(бита) защиты, Lc* кодирует длину компонента CDF* (см.~\ref{CMDS.Intro}), 
-а Le* всегда устанавливается в $\hex{00}$.   
+(бита) защиты, Lc* кодирует длину компонента CDF*, 
+а Le* всегда устанавливается в $\hex{00}$. 
 %
 В CDF* включаются зашифрованный компонент CDF (если он непуст), 
 компонент Le (если непуст) и имитовставка (обязательно). 
@@ -37,25 +39,62 @@ $\text{res*} = \text{RDF*} \parallel \text{SW1} \parallel \text{SW2}$.
 \label{Table.CMDS.CDFRDF}
 \begin{tabular}{|c|c|c|}
 \hline
-Описание объекта данных & Длина (в октетах) & Тег \\
+Объект & Длина (в октетах) & Тег \\
 \hline
 \hline
 Зашифрованные данные (с индикатором защиты) & не менее 2 & $\hex{87}$ \\
 \hline
 Длина Le & 1 -- 3 & $\hex{97}$\\
-\hline
-Статусы SW1 и SW2 & 2 & $\hex{99}$ \\
+%\hline
+%Статусы SW1 и SW2 & 2 & $\hex{99}$ \\
 \hline      
 Имитовставка & 8 & $\hex{8E}$ \\
 \hline
 \end{tabular}
 \end{table}
 
-Ниже описываются правила кодирования, которые используются при защите 
-команд и ответов. При описании данных правил через~$\len(X)$ обозначается 
-длина непустого слова~$X$, закодированная минимально возможным количеством 
-октетов согласно~\ref{CMDS.Intro} для случая кодирования компонента Lc. 
+\subsection{Защита команды}\label{CMDS.SM.EncrCmd}
 
+Команда cmd защищается с помощью алгоритма~\ref{CRYPTO.SM.Algs.Encr}. 
+%
+В качестве заголовка $I$ выступает слово 
+$\text{CLA*} \parallel \text{INS} \parallel \text{P1} \parallel \text{P2}$ 
+(4 октета), а в качестве критического сообщения $X$~--- компонент CDF. 
+%
+Слово~CLA* получается из CLA изменением одного бита:
+$\text{CLA*}\leftarrow\text{CLA}\oplus\hex{04}$.
+
+Алгоритм~\ref{CRYPTO.SM.Algs.Encr} настраивается следующим образом.
+\begin{enumerate}
+\item
+После зашифрования на шаге~1 по защищенному сообщению~$Y$
+(может быть пустым) и слову длины~Le (может быть пустым)
+строится слово~$Z$. Для этого выполняется следующая 
+последовательность шагов:
+\begin{enumerate}
+\item
+$Z \gets\perp$;
+\item
+если $|Y|>0$, то $Z\gets Z\parallel\der(\hex{87},\hex{02}\parallel Y)$;
+\item
+если $|\text{Le}|>0$, то $Z\gets Z\parallel\der(\hex{97}, \text{Le})$.
+\end{enumerate}
+\item
+На шаге~2 кодовое представление $\langle\langle I,Y\rangle\rangle$
+определяется как $I\parallel Z$.
+\item
+После вычисления имитовставки~$T$ на шаге~3 строится слово
+$\text{CDF*}\gets Z\parallel \der(\hex{8E}, T)$.
+Затем по правилам, заданным в~\ref{CMDS.Intro}, определяется длина Le* этого 
+слова.
+\item
+На шаге~4 кодовое представление $\langle\langle I,Y,T\rangle\rangle$
+определяется как $I\parallel\text{Le*}\parallel\text{CDF*}\parallel\hex{00}$.
+Это и есть защищенная команда cmd*.
+\end{enumerate}
+
+Защита команды схематически представлена на рис.~\ref{Fig.CMDS.CmdEncr}. 
+Необязательные части сообщений взяты на рисунке в квадратные скобки.
 
 \begin{figure}[!h]
 \begin{center}
@@ -64,7 +103,7 @@ $\text{res*} = \text{RDF*} \parallel \text{SW1} \parallel \text{SW2}$.
 CLA & INS & P1 & P2 & Lc & CDF & Le \\
 \hline
 \hline
-\multicolumn{4}{|c|}{заголовок $I$} & [длина CDF] & [сообщение $X$] & [длина ответа]\\
+\multicolumn{4}{|c|}{} & [длина CDF] & [сообщение $X$] & [длина ответа]\\
 \hline
 \end{tabular}
 
@@ -75,14 +114,48 @@ CLA & INS & P1 & P2 & Lc & CDF & Le \\
 CLA* & INS & P1 & P2 & Lc* & CDF* & Le \\
 \hline
 \hline
-\multicolumn{4}{|c|}{заголовок $I^*$} & [длина CDF*] & 
-$\left[\der(\hex{87},\hex{02}\parallel Y)\parallel\right]\ 
-\left[\der(\hex{97},\text{Le})\parallel\right]\ T$ & $\hex{00}$\\
+\multicolumn{4}{|c|}{заголовок $I$} & длина CDF* & 
+$\left[\der(\hex{87},\hex{02}\parallel Y)\parallel\right]
+\left[\der(\hex{97},\text{Le})\parallel\right]$ & $\hex{00}$\\
+\multicolumn{4}{|c|}{} & & 
+$\phantom{[}\der(\hex{87},T)$\hfill\mbox{} &\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Защита команд}\label{Fig.CMDS.Cmd}
+\caption{Защита команды}\label{Fig.CMDS.CmdEncr}
 \end{figure}
+
+\subsection{Защита ответа}\label{CMDS.SM.EncrRez}
+
+Ответ защищается с помощью алгоритма~\ref{CRYPTO.SM.Algs.Encr}. 
+В качестве заголовка~$I$ выступает слово $\text{SW1} \parallel\text{SW2}$ 
+(2 октета), а в качестве критического сообщения $X$~--- компонент RDF. 
+
+Алгоритм~\ref{CRYPTO.SM.Algs.Encr} настраивается следующим образом.
+\begin{enumerate}
+\item
+После зашифрования на шаге~1 по защищенному сообщению~$Y$
+(возможно пустому) строится слово~$Z$. Для этого выполняется следующая 
+последовательность шагов:
+\begin{enumerate}
+\item
+$Z\gets\perp$;
+\item
+если $|Y|>0$, то $Z\gets Z\parallel\der(\hex{87},\hex{02}\parallel Y)$.
+\end{enumerate}
+\item
+На шаге~2 кодовое представление $\langle\langle I,Y\rangle\rangle$
+определяется как $Z\parallel I$.
+\item
+После вычисления имитовставки~$T$ на шаге~3 строится слово
+$\text{RDF*}\gets Z\parallel \der(\hex{8E}, T)$.
+\item
+На шаге~4 кодовое представление $\langle\langle I,Y,T\rangle\rangle$
+определяется как $\text{RDF*}\parallel I$.
+Это и есть защищенный ответ res*.
+\end{enumerate}
+
+Защита ответа схематически представлена на рис.~\ref{Fig.CMDS.ResEncr}. 
 
 \begin{figure}[!h]
 \begin{center}
@@ -95,115 +168,43 @@ RDF & SW1 & SW2 \\
 \hline
 \end{tabular}
 
-$\Downarrow$
+\vskip3pt$\Downarrow$\vskip3pt
 
 \begin{tabular}{|c|c|c|}
 \hline
 RDF* & SW1 & SW2 \\
 \hline
 \hline
-$\left[\der(\hex{87},\hex{02}\parallel Y)\parallel\right]\ T$ & 
+$\left[\der(\hex{87},\hex{02}\parallel Y)\parallel\right]\ \der(\hex{8E},T)$ & 
 \multicolumn{2}{|c|}{заголовок $I$} \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Защита ответа}\label{Fig.CMDS.Answer}
+\caption{Защита ответа}\label{Fig.CMDS.ResEncr}
 \end{figure}
 
-{\bf Защита команд}. 
-Команда защищается с помощью алгоритма~\ref{CRYPTO.SM.Algs.Encr}. 
-При этом в 
-качестве заголовка $I$ выступает слово 
-$\text{CLA} \parallel \text{INS} \parallel \text{P1} \parallel \text{P2}$ 
-(4 октета), а 
-в качестве критического сообщения $X$ --- слово CDF (кодовое представление 
-длины $X$ задается в компоненте Lc). 
+КТ должен защищать ответ в рамках того защищенного соединения,
+по которому поступила защищенная команда (даже если эта команда 
+переключения между соединениями). 
 
-На шаге 2 алгоритма установки защиты заголовок $I$ и зашифрованное сообщение 
-$Y$ кодируются с помощью следующего алгоритма: 
+\subsection{Снятие защиты}\label{CMDS.SM.Decr}
 
-\begin{enumerate}
-\item
-Установить $Z \gets I\oplus\hex{04000000}$.
-\item
-Если $|Y| > 0$, то $Z \gets Z\parallel\der(\hex{87},\hex{02}\parallel Y)$.
-\item
-Если $\text{Le} > 0$, то $Z\gets Z\parallel\der(\hex{97}, \text{Le})$.
-\item
-Возвратить $Z$ в качестве $\langle\langle I, Y\rangle\rangle$.
-\end{enumerate}
-
-На шаге 4 алгоритма установки защиты заголовок $I$, защищенное сообщение $Y$ и 
-имитовставка $T$ кодируются с помощью следующего алгоритма: 
-\begin{enumerate}
-\item
-Установить $Z\gets I\oplus\hex{04000000}$.
-\item
-Положить переменную W равной пустому слову.
-\item
-Если $|Y| > 0$, то $W\gets \der(\hex{87}, \hex{02}\parallel Y)$.
-\item
-Если $Le > 0$, то $W\gets W\parallel\der(\hex{97}, \text{Le})$.
-\item
-Установить $W\gets W\parallel\der(\hex{8E}, T)$.
-\item
-Установить $Z\gets Z\parallel\len(W)\parallel W\parallel\hex{00}$.
-\item
-Возвратить $Z$ в качестве $\langle\langle I, Y, T\rangle\rangle$.
-\end{enumerate}
-
-Кодовое представление $\langle\langle I, Y, T\rangle\rangle$, полученное 
-в результате работы алгоритма, представляет собой защищенную команду cmd*. 
-
-{\bf Защита ответов}. 
-Ответ защищается с помощью алгоритма~\ref{CRYPTO.SM.Algs.Encr}. При этом в 
-качестве заголовка~$I$ выступает слово $\text{SW1} \parallel\text{SW2}$ 
-(2 октета), а в качестве критического сообщения $X$~--- слово RDF. 
-На шаге 2 алгоритма установки защиты заголовок $I$ и защищенное сообщение $Y$ 
-кодируются с помощью следующего алгоритма: 
-
-\begin{enumerate}
-\item
-$Z\gets \der(\hex{99}, I)$.
-\item
-Если $|Y| > 0$,  то $Z\gets \der(\hex{87}, \hex{02} \parallel Y) \parallel Z$. 
-\item
-Возвратить $Z$ в качестве $\langle\langle I, Y \rangle\rangle$.
-\end{enumerate}
-
-На шаге 3 алгоритма установки защиты заголовок $I$, защищенное сообщение $Y$ и 
-имитовставка $T$ кодируются с помощью следующего алгоритма: 
-
-\begin{enumerate}
-\item 
-Установить $W\gets\der(\hex{8E}, T)$.
-\item 
-Если $|Y| > 0$, 
-то $W \gets \der(\hex{87}, \hex{02}\parallel Y) \parallel W$.
-\item
-Установить $Z \gets W \parallel \der(\hex{99}, I)$.
-\item
-Возвратить $Z$ в качестве $\langle \langle I, Y, T\rangle\rangle$.
-\end{enumerate}
-
-Кодовое представление  $\langle\langle I, Y, T \rangle\rangle$, 
-полученное в результате работы алгоритма, 
-представляет собой защищенный ответ res*. 
-В защищенном ответе в поле RDF* передается слово $W$, 
-которое является кодовым представлением $Y$ и $T$. 
-
-{\bf Снятие защиты с команд и ответов}. 
-%
 Снятие защиты с команды и ответа производится с помощью 
 алгоритма~\ref{CRYPTO.SM.Algs.Decr}.  
 При снятии защиты выполняются обратные к установке защиты действия: 
 защищенные команда cmd* и ответ res* преобразуются в исходные команду cmd  
 и ответ res.  
 
-{\bf Принудительное закрытие защищенного соединения.}
-%
-КТ должен принудительно закрыть текущее защищенное соединение только в том случае, 
-когда при снятии защиты с команды обнаружено, что: 
+При снятии защиты должен проверяться формат сообщений.
+В частности, должно быть проверено, что в компоненте CLA* 
+защищенной команды установлен бит защиты:
+$\text{CLA*}\wedge\hex{04}=\hex{04}$.
+
+\subsection{Принудительное закрытие защищенного соединения}
+\label{CMDS.SM.Stop}
+
+КТ должен принудительно закрыть текущее защищенное соединение только в том 
+случае, когда при снятии защиты с команды обнаружено, что: 
 \begin{enumerate}
 \item[1)] команда представлена в незащищенном виде;
 \item[2)] отсутствует необходимый объект данных;
