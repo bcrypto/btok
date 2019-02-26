@@ -1,0 +1,99 @@
+﻿statechart:
+  name: Password processing in BTOK
+  preamble: |
+    pin_count = 3
+    pin_deactivated = False
+  root state:
+    name: operational
+    parallel states:
+      - name: pin
+        initial: operational
+        states:
+          - name: operational
+            transitions:
+              - target: auth
+                guard: !pin_deactivated
+                event: pin_ok
+                action: pin_count = 3
+              - target: operational
+                guard: !pin_deactivated and pin_count > 2
+                event: pin_bad
+                action: pin_count -= 1
+              - target: suspended
+                guard: !pin_deactivated and pin_count == 2
+                event: pin_bad
+                action: pin_count -= 1
+          - name: auth
+            transitions:
+              - target: operational
+                event: pin_deactivate
+                action: pin_deactivated = True
+              - target: operational
+                event: pin_close
+          - name: suspended
+            transitions:
+              - target: suspended
+                guard: !pin_deactivated
+                event: can_bad
+              - target: lastattempt
+                guard: !pin_deactivated
+                event: can_ok
+          - name: lastattempt
+            transitions:
+              - target: auth
+                guard: !pin_deactivated
+                event: pin_ok
+                action: pin_count = 3
+              - target: locked
+                guard: !pin_deactivated
+                event: pin_bad
+                action: |
+                  pin_count = 0
+                  puk_count = 10
+          - name: locked
+            transitions:
+              - target: operational
+                guard: !pin_deactivated
+                event: puk_ok
+                action: pin_count = 3
+              - target: locked
+                guard: !pin_deactivated and puk_count > 1
+                event: puk_bad
+                action: puk_count -= 1
+              - target: terminated
+                guard: !pin_deactivated and puk_count == 1
+                event: puk_bad
+                action: puk_count -= 1
+          - name: terminated
+      - name: puk
+        initial: operational
+        states:
+          - name: operational
+            transitions:
+              - target: auth
+                event: puk_ok
+              - target: operational
+                event: puk_bad
+          - name: auth
+            transitions:
+              - target: operational
+                event: puk_close
+              - target: auth
+                event: pin_deactivate
+                action: pin_deactivated = True
+              - target: auth
+                event: pin_activate
+                action: pin_deactivated = False
+      - name: can
+        initial: operational
+        states:
+          - name: operational
+            transitions:
+              - target: auth
+                event: can_ok
+              - target: operational
+                event: can_bad
+          - name: auth
+            transitions:
+              - target: operational
+                event: can_close
