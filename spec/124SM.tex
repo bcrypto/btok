@@ -11,7 +11,8 @@ $\text{res} = \text{RDF} \parallel \text{SW1} \parallel \text{SW2}$
 %
 Компоненты Lc, CDF, Le и RDF могут быть пустыми словами, т.~е. отсутствовать.
 
-Команда cmd преобразуются в защищенную команду 
+При передаче по защищенному соединению команда cmd преобразуются в защищенную 
+команду
 $\text{cmd*} = \text{CLA*} \parallel \text{INS} \parallel \text{P1} 
 \parallel \text{P2} \parallel \text{Lс*} \parallel \text{CDF*} 
 \parallel \text{Le*}$, а ответ~res~--- в защищенный ответ 
@@ -44,7 +45,7 @@ $\text{res*} = \text{RDF*} \parallel \text{SW1} \parallel \text{SW2}$.
 \hline
 Зашифрованные данные (с индикатором защиты) & не менее 2 & $\hex{87}$ \\
 \hline
-Длина Le & 1 -- 3 & $\hex{97}$\\
+Компонент Le & 1 -- 3 & $\hex{97}$\\
 %\hline
 %Статусы SW1 и SW2 & 2 & $\hex{99}$ \\
 \hline      
@@ -62,13 +63,13 @@ $\text{CLA*} \parallel \text{INS} \parallel \text{P1} \parallel \text{P2}$
 (4 октета), а в качестве критического сообщения $X$~--- компонент CDF. 
 %
 Слово~CLA* получается из CLA изменением одного бита:
-$\text{CLA*}\leftarrow\text{CLA}\oplus\hex{04}$.
+$\text{CLA*}\leftarrow\text{CLA}\vee\hex{04}$.
 
 Алгоритм~\ref{CRYPTO.SM.Algs.Encr} настраивается следующим образом.
 \begin{enumerate}
 \item
 После зашифрования на шаге~1 по защищенному сообщению~$Y$
-(может быть пустым) и слову длины~Le (может быть пустым)
+(может быть пустым) и компоненту Le (может быть пустым)
 строится слово~$Z$. Для этого выполняется следующая 
 последовательность шагов:
 \begin{enumerate}
@@ -118,7 +119,7 @@ CLA* & INS & P1 & P2 & Lc* & CDF* & Le \\
 $\left[\der(\hex{87},\hex{02}\parallel Y)\parallel\right]
 \left[\der(\hex{97},\text{Le})\parallel\right]$ & $\hex{00}$\\
 \multicolumn{4}{|c|}{} & & 
-$\phantom{[}\der(\hex{87},T)$\hfill\mbox{} &\\
+$\phantom{[}\der(\hex{8E},T)$\hfill\mbox{} &\\
 \hline
 \end{tabular}
 \end{center}
