@@ -97,7 +97,7 @@ BEGIN
     signature                         [APPLICATION 55] OCTET STRING
   }
 
-  CharString ::= PrintableString (SIZE (8..14))
+  CharString ::= PrintableString (SIZE (8..12))
 
   PubKey ::= SEQUENCE {
     objIdentifier        OBJECT IDENTIFIER,
