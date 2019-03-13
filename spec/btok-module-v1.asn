@@ -27,7 +27,7 @@ BEGIN
   btok-cvext OBJECT IDENTIFIER ::= {btok 8}
   id-SignAuthExt OBJECT IDENTIFIER ::= {btok-cvext 1}
 
-  SerialNumber ::= [APPLICATION 1] PrintableString(SIZE (7..64))
+  SerialNumber ::= [APPLICATION 1] PrintableString(SIZE (14..18))
   IssuingState ::= [APPLICATION 2] Country
   DateOfExpiry ::= [APPLICATION 3] Date
   GivenName ::= [APPLICATION 4] UTF8String
