@@ -27,7 +27,7 @@ BEGIN
   btok-cvext OBJECT IDENTIFIER ::= {btok 8}
   id-SignAuthExt OBJECT IDENTIFIER ::= {btok-cvext 1}
 
-  SerialNumber ::= [APPLICATION 1] PrintableString(SIZE (7..64))
+  SerialNumber ::= [APPLICATION 1] PrintableString(SIZE (14..18))
   IssuingState ::= [APPLICATION 2] Country
   DateOfExpiry ::= [APPLICATION 3] Date
   GivenName ::= [APPLICATION 4] UTF8String
@@ -97,7 +97,7 @@ BEGIN
     signature                         [APPLICATION 55] OCTET STRING
   }
 
-  CharString ::= OCTET STRING (SIZE (8..16))
+  CharString ::= PrintableString (SIZE (8..12))
 
   PubKey ::= SEQUENCE {
     objIdentifier        OBJECT IDENTIFIER,
