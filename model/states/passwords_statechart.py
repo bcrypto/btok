@@ -6,6 +6,7 @@ INIT_STATE_PREAMBLE = RESET_PIN_COUNT + ";pin_state = 'A'"
 PIN_STATE_IS_ACTIVE = "pin_state == 'A'"
 PIN_STATE_IS_BLOCKED = "pin_state == 'B'"
 ACCEPTABLE_PIN_COUNT = "pin_count > 1"
+WRONG_PASSWORD_STATE = 'wrongPasswordState'
 
 
 def init_input_state(root_state):
@@ -38,16 +39,17 @@ def create_blocked_pin_state(parent_state):
 
 
 def create_wrong_password_compound(parent_state, came_from_state):
-    wrong_password_compound = CompoundState(name='wrongPasswordCompound')
+    wrong_password_compound = CompoundState(name='wrongPasswordCompound',
+                                            initial=WRONG_PASSWORD_STATE)
     statechart.add_state(state=wrong_password_compound, parent=parent_state.name)
-    statechart.add_transition(Transition(source=wrong_password_compound.name,
-                                         target=create_wrong_password_default(wrong_password_compound,
-                                                                              came_from_state).name))
+    create_wrong_password_default(name=WRONG_PASSWORD_STATE,
+                                  parent_state=wrong_password_compound,
+                                  came_from_state=came_from_state)
     return wrong_password_compound
 
 
-def create_wrong_password_default(parent_state, came_from_state):
-    wrong_password_state = BasicState(name='wrongPasswordState', on_entry='pin_count = pin_count - 1')
+def create_wrong_password_default(name, parent_state, came_from_state):
+    wrong_password_state = BasicState(name=name, on_entry='pin_count = pin_count - 1')
     statechart.add_state(state=wrong_password_state, parent=parent_state.name)
     statechart.add_transition(Transition(source=wrong_password_state.name,
                                          target=came_from_state.name,
@@ -61,7 +63,7 @@ def create_wrong_password_default(parent_state, came_from_state):
                                          action='puk_count = 10'))
     return wrong_password_state
 
-# Fixme: For some reason there is pin_count-1 event on wrong_can.
+
 def create_can_input_state(parent_state, on_correct_input_state):
     can_input_state = BasicState(name='inputCan')
     statechart.add_state(state=can_input_state, parent=parent_state.name)
