@@ -27,13 +27,13 @@ BEGIN
   btok-cvext OBJECT IDENTIFIER ::= {btok 8}
   id-SignAuthExt OBJECT IDENTIFIER ::= {btok-cvext 1}
 
-  SerialNumber ::= [APPLICATION 1] PrintableString(SIZE (14..18))
+  SerialNumber ::= [APPLICATION 1] PrintableString(SIZE(14..18))
   IssuingState ::= [APPLICATION 2] Country
   DateOfExpiry ::= [APPLICATION 3] Date
   GivenName ::= [APPLICATION 4] UTF8String
   FamilyName ::= [APPLICATION 5] UTF8String
   MiddleName ::= [APPLICATION 6] UTF8String
-  PersonalNumber ::= [APPLICATION 7] PrintableString(SIZE (7..64))
+  PersonalNumber ::= [APPLICATION 7] PrintableString(SIZE(7..64))
   DateOfBirth ::= [APPLICATION 8] Date
   PlaceOfBirth ::= [APPLICATION 9] GeneralPlace
   Nationality ::= [APPLICATION 10] Country
@@ -43,14 +43,14 @@ BEGIN
   DateOfIssuance ::= [APPLICATION 15] Date
   IssuanceBoard ::= [APPLICATION 16] UTF8String
   PlaceOfResidence ::= [APPLICATION 17] GeneralPlace
-  DistrictID ::= [APPLICATION 18] PrintableString(SIZE (7..64))
+  DistrictID ::= [APPLICATION 18] PrintableString(SIZE(7..64))
   PhoneNumber ::= [APPLICATION 21] PrintableString
   EmailAddress ::= [APPLICATION 22] IA5String
   
-  ICAOString ::= PrintableString (FROM ("A".."Z" | " "))
-  Country ::= ICAOString (SIZE (3))
-  ICAOSex ::= PrintableString (FROM ("M"|"F"|" "))
-  Date ::= NumericString (SIZE (8))
+  ICAOString ::= PrintableString(FROM("A".."Z" | " "))
+  Country ::= ICAOString(SIZE(3))
+  ICAOSex ::= PrintableString(FROM("M"|"F"|" "))
+  Date ::= NumericString(SIZE(8))
   
   Place ::= SEQUENCE {
     street  [10] UTF8String OPTIONAL,
@@ -97,13 +97,13 @@ BEGIN
     signature                         [APPLICATION 55] OCTET STRING
   }
 
-  CharString ::= PrintableString (SIZE (8..12))
+  CharString ::= PrintableString(SIZE(8..12))
 
   PubKey ::= SEQUENCE {
     objIdentifier        OBJECT IDENTIFIER,
     pubKeyandParameters  PublicKey 
   }
 
-  CVDate ::= NumericString (SIZE(6)) -- YYMMDD
+  CVDate ::= OCTET STRING(SIZE(6)) -- YYMMDD
   CVExt ::= SEQUENCE OF DiscretionaryDataTemplate
 END

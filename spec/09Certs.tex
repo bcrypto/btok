@@ -24,14 +24,14 @@ CVCertificate ::= [APPLICATION 33] SEQUENCE {
   signature                         [APPLICATION 55] OCTET STRING
 }
 
-CharString ::= PrintableString (SIZE (8..12))
+CharString ::= PrintableString(SIZE(8..12))
 
 PubKey ::= SEQUENCE {
   objIdentifier         OBJECT IDENTIFIER,
   pubKeyandParameters   PublicKey
 }
 
-CVDate :: = NumericString (SIZE(6))
+CVDate :: = OCTET STRING(SIZE(6))
 CVExt ::= SEQUENCE OF DiscretionaryDataTemplate
 \end{verbatim}
 
@@ -58,7 +58,7 @@ CVExt ::= SEQUENCE OF DiscretionaryDataTemplate
 Открытый ключ записывается во вложенный компонент~\verb|pubKeyandParameters| 
 типа~\verb|PublicKey|. Этот тип определен в СТБ 34.101.45 следующим образом: 
 \begin{verbatim} 
-PublicKey ::= BIT STRING (SIZE(512|768|1024))
+PublicKey ::= BIT STRING(SIZE(512|768|1024))
 \end{verbatim} 
 
 По длине открытого ключа определяется уровень стойкости и стандартные параметры  
@@ -89,9 +89,12 @@ PublicKey ::= BIT STRING (SIZE(512|768|1024))
 Дата задается строкой формата \texttt{YYMMDD}, 
 в которой \texttt{YY}~--- год текущего века, 
 \texttt{MM}~--- месяц, \texttt{DD}~--- день.
+%
+Символы строки~--- десятичные числа~$0,1,\ldots,9$~---
+кодируются октетами~$\hex{00},\hex{01},\ldots,\hex{09}$.
 
 \item
-Компонент \verb|certExpirationDate| определяет время окончания действия 
+Компонент \verb|certExpirationDate| определяет дату окончания действия 
 сертификата.
 
 \item

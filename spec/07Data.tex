@@ -74,13 +74,13 @@ DG22 &	EMailAddress & Адрес электронной почты & \\
 Группы данных описываются следующими одноименными типами АСН.1.
 В типах применяется неявное (\texttt{IMPLICIT}) тегирование.
 \begin{verbatim}
-SerialNumber ::= [APPLICATION 1] PrintableString(SIZE (14..18))
+SerialNumber ::= [APPLICATION 1] PrintableString(SIZE(14..18))
 IssuingState ::= [APPLICATION 2] Country
 DateOfExpiry ::= [APPLICATION 3] Date
 GivenName ::= [APPLICATION 4] UTF8String
 FamilyName ::= [APPLICATION 5] UTF8String
 MiddleName ::= [APPLICATION 6] UTF8String
-PersonalNumber ::= [APPLICATION 7] PrintableString(SIZE (7..64))
+PersonalNumber ::= [APPLICATION 7] PrintableString(SIZE(7..64))
 DateOfBirth ::= [APPLICATION 8] Date
 PlaceOfBirth ::= [APPLICATION 9] GeneralPlace
 Nationality ::= [APPLICATION 10] Country
@@ -90,14 +90,14 @@ WrittenSignature ::= [APPLICATION 14] OCTET STRING
 DateOfIssuance ::= [APPLICATION 15] Date
 IssuanceBoard ::= [APPLICATION 16] UTF8String
 PlaceOfResidence ::= [APPLICATION 17] GeneralPlace
-DistrictID ::= [APPLICATION 18] PrintableString(SIZE (7..64))
+DistrictID ::= [APPLICATION 18] PrintableString(SIZE(7..64))
 PhoneNumber ::= [APPLICATION 21] PrintableString
 EmailAddress ::= [APPLICATION 22] IA5String
 
-ICAOString ::= PrintableString (FROM ("A".. "Z" | " "))
-Country ::= ICAOString (SIZE (3))
-ICAOSex ::= PrintableString (FROM ("M"|"F"|" "))
-Date ::= NumericString (SIZE (8))
+ICAOString ::= PrintableString(FROM("A".. "Z" | " "))
+Country ::= ICAOString(SIZE(3))
+ICAOSex ::= PrintableString(FROM("M"|"F"|" "))
+Date ::= NumericString(SIZE(8))
 
 Place ::= SEQUENCE {
   street  [10] UTF8String OPTIONAL,
@@ -306,7 +306,7 @@ AgeVerification	  & \verb|id-AgeVerification| & $\texttt{88}_{16}$ &
 \verb|Date|\\
 \hline                                                
 PlaceVerification &	\verb|id-PlaceVerification| & $\texttt{92}_{16}$ & 
-\verb|PrintableString(SIZE (7..64))|\\
+\verb|PrintableString(SIZE(7..64))|\\
 \hline
 \end{tabular}
 \end{table}
