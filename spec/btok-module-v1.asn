@@ -43,7 +43,7 @@ BEGIN
   DateOfIssuance ::= [APPLICATION 15] Date
   IssuanceBoard ::= [APPLICATION 16] UTF8String
   PlaceOfResidence ::= [APPLICATION 17] GeneralPlace
-  DistrictID ::= [APPLICATION 18] PrintableString(SIZE(7..64))
+  DistrictID ::= [APPLICATION 18] PrintableString(SIZE(0..64))
   PhoneNumber ::= [APPLICATION 21] PrintableString
   EmailAddress ::= [APPLICATION 22] IA5String
   
