@@ -80,7 +80,7 @@ BEGIN
 
   CertHAT ::= [APPLICATION 76] SEQUENCE {
     objId              OBJECT IDENTIFIER,
-    discretionaryData  OCTET STRING OPTIONAL
+    discretionaryData  OCTET STRING
   }
 
   CVCertificate ::= [APPLICATION 33] SEQUENCE {
