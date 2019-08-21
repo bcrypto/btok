@@ -26,6 +26,7 @@ def random_tests(elevator, has_error_in_context):
         print('Step: ', step)
         print('Configuration: ', interpreter.configuration)
         print('Context: ', interpreter.context)
+        # TODO: with help of contracts
         if has_error_in_context(interpreter):
             print('ERRORR!')
             exit(1)
