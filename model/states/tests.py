@@ -1,15 +1,15 @@
 import random
 
 from sismic.interpreter import Interpreter
-from sismic.io import import_from_yaml
 
-from statecharts.crypto_token_statechart import crypto_token_statechart
-from statecharts.passwords_statechart import passwords_statechart
+from statecharts.e_sign import e_sign_statechart
 
 
-def random_tests(elevator, has_error_in_context):
+def random_tests(elevator, has_error_in_context=lambda interpreter: False, precondition=None):
     interpreter = Interpreter(elevator)
     print('Before:', interpreter.configuration)
+    if precondition is not None:
+        precondition(interpreter)
     step = interpreter.execute_once()
     print('Step: ', step)
     print('Configuration: ', interpreter.configuration)
@@ -36,4 +36,11 @@ def random_tests(elevator, has_error_in_context):
 
 # random_tests(passwords_statechart,
 #              lambda interpreter: interpreter.context['pin_count'] < 0)
-random_tests(crypto_token_statechart, lambda interpreter: False)
+# random_tests(crypto_token_statechart, lambda interpreter: False)
+
+
+def e_sign_precondition(interpreter):
+    interpreter.context['is_authenticated'] = True
+
+
+random_tests(e_sign_statechart, precondition=e_sign_precondition)
