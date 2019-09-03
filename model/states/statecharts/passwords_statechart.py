@@ -1,5 +1,5 @@
 from sismic.model import Statechart, CompoundState, BasicState, Transition, FinalState
-
+# m.chmyreva TODO: Try to add time disabling at wrong CAN inputted.
 INPUT_STATE_NAME = 'input'
 RESET_PIN_COUNT = "pin_count = 3"
 INIT_STATE_PREAMBLE = RESET_PIN_COUNT + ";pin_state = 'A'"
