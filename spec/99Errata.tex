@@ -8,27 +8,10 @@
 \hline
 В каком месте & Напечатано & Должно быть\\
 \hline
-\hline
-Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~2 &
-Выполнить кодирование $I$, $Y$ и построить их кодовое 
-представление $\langle\langle I, Y\rangle\rangle$.
-&
-Выполнить кодирование~$S$, $I$, $Y$ и построить их кодовое 
-представление $\langle\langle S, I, Y\rangle\rangle$.
-\\
-\hline
 Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 &
 $T\gets\texttt{belt-mac}(\langle\langle I, Y\rangle\rangle, K_1)$.
 &
-$T\gets\texttt{belt-mac}(\langle\langle S, I, Y\rangle\rangle, K_1)$.
-\\
-\hline
-Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~2 &
-Выполнить кодирование $I$, $Y$ и построить их кодовое 
-представление $\langle\langle I, Y\rangle\rangle$.
-&
-Выполнить кодирование~$S$, $I$, $Y$ и построить их кодовое 
-представление $\langle\langle S, I, Y\rangle\rangle$.
+$T\gets\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 \\
 \hline
 Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~3 &
@@ -36,23 +19,7 @@ $T\gets\texttt{belt-mac}(\langle\langle S, I, Y\rangle\rangle, K_1)$.
 $T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$. 
 &
 Проверить, что\par 
-$T=\texttt{belt-mac}(\langle\langle S, I, Y\rangle\rangle, K_1)$.
-\\
-\hline
-Пункт~\ref{CMDS.SM.EncrCmd},\par шаг~2 &
-На шаге~2 кодовое представление $\langle\langle I,Y\rangle\rangle$
-определяется как $I\parallel Z$.
-&
-На шаге~2 кодовое представление $\langle\langle S,I,Y\rangle\rangle$
-определяется как $S\parallel I\parallel Z$.
-\\
-\hline
-Пункт~\ref{CMDS.SM.EncrRez},\par шаг~2 &
-На шаге~2 кодовое представление $\langle\langle I,Y\rangle\rangle$
-определяется как $I\parallel Z$.
-&
-На шаге~2 кодовое представление $\langle\langle S,I,Y\rangle\rangle$
-определяется как $S\parallel I\parallel Z$.
+$T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 \\
 \hline
 \end{tabular}
