@@ -8,6 +8,7 @@
 \hline
 В каком месте & Напечатано & Должно быть\\
 \hline
+\hline
 Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 &
 $T\gets\texttt{belt-mac}(\langle\langle I, Y\rangle\rangle, K_1)$.
 &
@@ -20,6 +21,12 @@ $T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$.
 &
 Проверить, что\par 
 $T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
+\\
+\hline
+Пункт~\ref{CMDS.SM.EncrCmd},\par шаг~4 &
+$I\parallel\text{Le*}\parallel\text{CDF*}\parallel\hex{00}$
+&
+$I\parallel\text{Lс*}\parallel\text{CDF*}\parallel\hex{00}$
 \\
 \hline
 \end{tabular}
