@@ -528,7 +528,7 @@ $\langle\langle I,Y,T\rangle\rangle$ заголовка~$I$, зашифрова�
 представление $\langle\langle I, Y\rangle\rangle$.
 
 \item
-$T\gets\texttt{belt-mac}(\langle\langle I, Y\rangle\rangle, K_1)$.
+$T\gets\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 
 \item
 Выполнить кодирование $I$, $Y$, $T$ и построить их кодовое 
@@ -556,7 +556,7 @@ $\langle\langle I, Y \rangle\rangle$.
  
 \item
 Проверить, 
-что $T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$.
+что $T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
  
 \item
 $X\leftarrow\texttt{belt-cfb}^{-1}(Y, K_2, S)$.
