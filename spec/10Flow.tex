@@ -84,6 +84,7 @@ $\Attr_\text{КТ}$~--- идентификационные атрибуты КТ
 
 \begin{table}[bht]
 \caption{Выпуск билета аутентификации: сообщения}\label{Table.FLOW.Msgs}
+\addtolength{\tabcolsep}{-1.5pt}
 \begin{tabular}{|c|c|c|l|}
 \hline
 Шаг & Направление & Сообщение & Примечание\\
@@ -115,7 +116,7 @@ $\langle\langle\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle$ &\\
 %
 5   & $\text{КП}\Rightarrow\text{КТ}$ & 
 $\langle\langle\text{M0}_\text{BAUTH}\rangle\rangle$ &
-$\text{M0}_\text{BAUTH}=(H_\text{КП},\Cert(Id_\text{Т},Q_\text{Т}))$\\
+$\text{M0}_\text{BAUTH}=(\addendum{\hello_\text{Т}},\Cert(Id_\text{Т},Q_\text{Т}))$\\
     & $\text{КТ}\Rightarrow\text{КП}$ & 
 $\langle\langle\text{M1}_\text{BAUTH}\rangle\rangle$ &\\
 \hline
@@ -139,6 +140,7 @@ $\langle\langle\Attr_\text{КТ}\rangle\rangle$ & По частям, через 
 $\text{билет}=\langle\langle\Attr_\text{КТ}\rangle\rangle$\\
 \hline
 \end{tabular}
+\addtolength{\tabcolsep}{1.5pt}
 \end{table}
 
 \section{Шаги}\label{FLOW.Steps}
@@ -186,8 +188,8 @@ $\text{билет}=\langle\langle\Attr_\text{КТ}\rangle\rangle$\\
 КП и КТ выполняют протокол BPACE и формируют общий ключ 
 $K_0$. Пароль протокола (PIN или CAN) передает КП владелец КТ. 
 В качестве приветственного сообщения $\hello_\text{КП}$ протокола BPACE
-используется перечень~$\Chart_\text{КП}$. КТ должен сохранить 
-$\Chart_\text{КП}$ для дальнейшего использования.
+используется перечень~$\Chart_\text{В}$. КТ должен сохранить 
+$\Chart_\text{В}$ для дальнейшего использования.
 
 КП и КТ создают защищенное соединение на ключе $K_0$.
 
@@ -197,10 +199,10 @@ $\Chart_\text{КП}$ для дальнейшего использования.
 СИ получает запрос $\Req_\text{ПС}$ и перечень $\Chart_\text{В}$.
 %
 СИ проверяет присланный запрос, выделяет в нем перечень 
-$\Chart_\text{ПС}$ и проверяет его соответствие $\Chart_\text{В}$. 
+$\Chart_\text{ПС}$ и проверяет его соответствие \addendum{$\Chart_\text{В}$}. 
 
 СИ выбирает терминал, права доступа которого позволяют запрашивать 
-идентификационные атрибуты в соответствии с перечнем $\Chart_\text{В}$.
+идентификационные атрибуты в соответствии с перечнем \addendum{$\Chart_\text{В}$}.
 %
 СИ вычисляет хэш-значение $H_\text{СИ}=\texttt{belt-hash}(\Req_\text{ПС})$
 и передает его терминалу вместе с~$\Chart_\text{В}$.
@@ -226,7 +228,9 @@ $\Chart_\text{В}$, полученного на шаге 3.
 
 КП отправляет КТ приветственное сообщение~$\hello_\text{Т}$ 
 как часть сообщения $\text{M0}_\text{BAUTH}$. 
-В качестве $\hello_\text{Т}$ используется хэш-значение $H_\text{КП}$. 
+%
+\addendum{В $\hello_\text{Т}$ указывается хэш-значение $H_\text{СИ}$ ($H_\text{КП}$
+на стороне КП), \doubt{перечень~$\Chart_\text{В}$} и возможно другие данные.}
 
 КТ продолжает выполнение протокола BAUTH, обрабатывая~$\hello_\text{Т}$.
 КТ формирует и отправляет КП сообщение $\text{M1}_\text{BAUTH}$ с пустым 

@@ -9,24 +9,77 @@
 В каком месте & Напечатано & Должно быть\\
 \hline
 \hline
-Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 &
+Подраздел~\ref{FLOW.Steps},\par таблица~\ref{Table.FLOW.Msgs},\par
+шаг 5, примечание
+&
+$\text{M0}_\text{BAUTH}=(H_\text{КП},\Cert(Id_\text{Т},Q_\text{Т}))$
+&
+$\text{M0}_\text{BAUTH}=(\addendum{\hello_\text{Т}},\Cert(Id_\text{Т},Q_\text{Т}))$
+\\
+\hline
+Подраздел~\ref{FLOW.Steps},\par шаг~3
+&
+В качестве приветственного сообщения $\hello_\text{КП}$ протокола BPACE
+используется перечень~$\Chart_\text{КП}$. КТ должен сохранить 
+$\Chart_\text{КП}$ для дальнейшего использования.
+&
+В качестве приветственного сообщения $\hello_\text{КП}$ протокола BPACE
+используется перечень~\addendum{$\Chart_\text{В}$}. КТ должен сохранить 
+\addendum{$\Chart_\text{В}$} для дальнейшего использования.
+\\
+\hline
+Подраздел~\ref{FLOW.Steps},\par шаг~5
+&
+В качестве $\hello_\text{Т}$ используется хэш-значение $H_\text{СИ}$. 
+&
+\addendum{В $\hello_\text{Т}$ указывается хэш-значение $H_\text{СИ}$ ($H_\text{КП}$
+на стороне КП), \doubt{перечень~$\Chart_\text{В}$} и возможно другие данные.}
+\\
+\hline
+Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 
+&
 $T\gets\texttt{belt-mac}(\langle\langle I, Y\rangle\rangle, K_1)$.
 &
 $T\gets\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 \\
 \hline
-Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~3 &
+Пункт~\ref{CMDS.SM.EncrCmd},\par шаг~4 
+&
+$I\parallel\text{Le*}\parallel\text{CDF*}\parallel\hex{00}$
+&
+$I\parallel\text{Lс*}\parallel\text{CDF*}\parallel\hex{00}$
+\\
+\hline
+Пункт~\ref{Oper.Descr.SetBAUTH},\par абзац 3 
+&
+Команда может вызываться при выборе мастер-файла в состоянии PS 
+непосредственно после выполнения протокола BPACE 
+(см.~\ref{Oper.Descr.GABPACE}). 
+&
+Команда может вызываться при выборе мастер-файла в состоянии PS 
+непосредственно после выполнения протокола BPACE 
+(см.~\ref{Oper.Descr.GABPACE}). 
+%
+\addendum{
+Приветственное сообщение $\hello_\text{Т}$ протокола BAUTH определяется 
+как $H\parallel \texttt{AuthAuxData}\doubt{\parallel\texttt{CertHAT}}$,
+где $H$~--- хэш-значение (передается в CDF),
+%
+\texttt{AuthAuxData}~--- объект для проверки дополнительных атрибутов 
+(передается в CDF),
+%
+\doubt{$\hello_\text{КП}$~--- приветственное сообщение ранее выполненного протокола BPACE}.
+%
+Приветственное сообщение $\hello_\text{КТ}$ протокола BAUTH является пустым.
+}\\
+\hline
+Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~3 
+&
 Проверить, что\par 
 $T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$. 
 &
 Проверить, что\par 
 $T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
-\\
-\hline
-Пункт~\ref{CMDS.SM.EncrCmd},\par шаг~4 &
-$I\parallel\text{Le*}\parallel\text{CDF*}\parallel\hex{00}$
-&
-$I\parallel\text{Lс*}\parallel\text{CDF*}\parallel\hex{00}$
 \\
 \hline
 \end{tabular}
