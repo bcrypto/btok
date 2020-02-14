@@ -100,8 +100,8 @@ $\langle\langle\Req_\text{ПС},\Chart_\text{В}\rangle\rangle$ &\\
 \hline
 %
 3   & $\text{КП}\rightarrow\text{КТ}$ & 
-$\langle\langle\text{M0}_\text{BPACE},\text{M1}_\text{BPACE}\rangle\rangle$ &
-$\text{M0}_\text{BPACE}=\Chart_\text{В}$\\
+$\langle\langle\addendum{\text{M1}_\text{BPACE}}\rangle\rangle$ &
+$\addendum{\hello_\text{КП}=\langle\langle\Chart_\text{В}\rangle\rangle}$\\
     & $\text{КТ}\rightarrow\text{КП}$ & 
 $\langle\langle\text{M2}_\text{BPACE}\rangle\rangle$ &\\
     & $\text{КП}\rightarrow\text{КТ}$ & 
@@ -116,7 +116,8 @@ $\langle\langle\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle$ &\\
 %
 5   & $\text{КП}\Rightarrow\text{КТ}$ & 
 $\langle\langle\text{M0}_\text{BAUTH}\rangle\rangle$ &
-$\text{M0}_\text{BAUTH}=(\addendum{\hello_\text{Т}},\Cert(Id_\text{Т},Q_\text{Т}))$\\
+$\text{M0}_\text{BAUTH}=\addendum{
+  \langle\langle\hello_\text{Т},\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle}$\\
     & $\text{КТ}\Rightarrow\text{КП}$ & 
 $\langle\langle\text{M1}_\text{BAUTH}\rangle\rangle$ &\\
 \hline
@@ -188,8 +189,8 @@ $\text{билет}=\langle\langle\Attr_\text{КТ}\rangle\rangle$\\
 КП и КТ выполняют протокол BPACE и формируют общий ключ 
 $K_0$. Пароль протокола (PIN или CAN) передает КП владелец КТ. 
 В качестве приветственного сообщения $\hello_\text{КП}$ протокола BPACE
-используется перечень~$\Chart_\text{В}$. КТ должен сохранить 
-$\Chart_\text{В}$ для дальнейшего использования.
+используется перечень~\addendum{$\Chart_\text{В}$ и возможно другие данные}. 
+КТ должен сохранить $\Chart_\text{В}$ для дальнейшего использования.
 
 КП и КТ создают защищенное соединение на ключе $K_0$.
 
@@ -230,7 +231,7 @@ $\Chart_\text{В}$, полученного на шаге 3.
 как часть сообщения $\text{M0}_\text{BAUTH}$. 
 %
 \addendum{В $\hello_\text{Т}$ указывается хэш-значение $H_\text{СИ}$ ($H_\text{КП}$
-на стороне КП), \doubt{перечень~$\Chart_\text{В}$} и возможно другие данные.}
+на стороне КП), перечень~$\Chart_\text{В}$ и возможно другие данные.}
 
 КТ продолжает выполнение протокола BAUTH, обрабатывая~$\hello_\text{Т}$.
 КТ формирует и отправляет КП сообщение $\text{M1}_\text{BAUTH}$ с пустым 
