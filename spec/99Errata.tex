@@ -3,19 +3,65 @@
 
 \mbox{}
 
-\begin{center}
-\begin{tabular}{|p{3.5cm}|p{6cm}|p{6cm}|}
+{\small
+\begin{longtable}{|p{3.0cm}|p{6.0cm}|p{6.6cm}|}
 \hline
 В каком месте & Напечатано & Должно быть\\
 \hline
 \hline
-Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 &
+Подраздел~\ref{FLOW.Steps},\par таблица~\ref{Table.FLOW.Msgs},
+шаг 3,\par сообщение
+&
+$\langle\langle\text{M0}_\text{BPACE},\text{M1}_\text{BPACE}\rangle\rangle$
+&
+$\langle\langle\text{M1}_\text{BPACE}\rangle\rangle$
+\\
+\hline
+Подраздел~\ref{FLOW.Steps},\par таблица~\ref{Table.FLOW.Msgs},
+шаг 3,\par примечание
+&
+$\text{M0}_\text{BPACE}=\Chart_\text{В}$
+&
+$\hello_\text{КП}=\langle\langle\Chart_\text{В}\rangle\rangle$
+\\
+\hline
+Подраздел~\ref{FLOW.Steps},\par таблица~\ref{Table.FLOW.Msgs},
+шаг 5,\par примечание
+&
+$\text{M0}_\text{BAUTH}=(H_\text{КП},\Cert(Id_\text{Т},Q_\text{Т}))$
+&
+$\text{M0}_\text{BAUTH}=
+\langle\langle\hello_\text{Т},\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle$ 
+\\
+\hline
+Подраздел~\ref{FLOW.Steps},\par шаг~3
+&
+В качестве приветственного сообщения $\hello_\text{КП}$ протокола BPACE
+используется перечень~$\Chart_\text{КП}$. КТ должен сохранить 
+$\Chart_\text{КП}$ для дальнейшего использования.
+&
+В качестве приветственного сообщения $\hello_\text{КП}$ протокола BPACE
+используется перечень~$\Chart_\text{В}$ и возможно другие данные. 
+КТ должен сохранить $\Chart_\text{В}$ для дальнейшего использования.
+\\
+\hline
+Подраздел~\ref{FLOW.Steps},\par шаг~5
+&
+В качестве $\hello_\text{Т}$ используется хэш-значение $H_\text{СИ}$. 
+&
+В $\hello_\text{Т}$ указывается хэш-значение $H_\text{СИ}$ ($H_\text{КП}$
+на стороне КП), перечень~$\Chart_\text{В}$ и возможно другие данные.
+\\
+\hline
+Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 
+&
 $T\gets\texttt{belt-mac}(\langle\langle I, Y\rangle\rangle, K_1)$.
 &
 $T\gets\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 \\
 \hline
-Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~3 &
+Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~3 
+&
 Проверить, что\par 
 $T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$. 
 &
@@ -23,11 +69,57 @@ $T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$.
 $T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 \\
 \hline
-Пункт~\ref{CMDS.SM.EncrCmd},\par шаг~4 &
+Пункт~\ref{Oper.Descr.SetBAUTH},\par абзац 2
+&
+В компоненте CDF все объекты данных являются обязательными, 
+они должны передаваться с помощью одной команды, 
+т.~е. использование цепочки команд <MSE: Set AT> не допускается. 
+При этом порядок следования объектов данных в компоненте CDF не важен. 
+&
+В компоненте CDF обязательным является только первый объект.
+Объекты должны передаваться с помощью одной команды, т.~е. использование
+цепочки команд <MSE: Set AT> не допускается.
+\\
+\hline
+Пункт~\ref{Oper.Descr.SetBAUTH},\par абзац 3 
+&
+Команда может вызываться при выборе мастер-файла в состоянии PS 
+непосредственно после выполнения протокола BPACE 
+(см.~\ref{Oper.Descr.GABPACE}). 
+&
+Команда может вызываться при выборе мастер-файла в состоянии PS 
+непосредственно после выполнения протокола BPACE 
+(см.~\ref{Oper.Descr.GABPACE}). 
+%
+Приветственное сообщение $\hello_\text{Т}$ протокола BAUTH определяется как 
+$\text{CDF}\parallel\texttt{CertHAT}^*$. Здесь~$\texttt{CertHAT}^*$~--- 
+список объектов $\texttt{CertHAT}$, указанный ранее в команде инициализации 
+протокола BPACE (см.~\ref{Oper.Descr.SetBPACE}). 
+%
+Приветственное сообщение $\hello_\text{КТ}$ протокола BAUTH полагается пустым.
+\\
+\hline
+Пункт~\ref{Oper.Descr.SetBPACE}
+&
+Объекты типа \verb|CertHAT|, передаваемые в компоненте CDF, 
+должны использоваться в протоколе BPACE как приветственное сообщение КП
+(см.~\ref{CRYPTO.BPACE}).
+%
+Если передается несколько таких значений, то при формировании приветственного
+сообщения они должны объединяться в порядке следования в компоненте CDF. Если же
+не передается ни одного значения, то в качестве приветственного сообщения должно
+использоваться пустое слово.
+&
+Компонент CDF должен использоваться в протоколе BPACE в качестве 
+приветственного сообщения $\hello_\text{КП}$ (см.~\ref{CRYPTO.BPACE}).
+\\
+\hline
+Пункт~\ref{CMDS.SM.EncrCmd},\par шаг~4 
+&
 $I\parallel\text{Le*}\parallel\text{CDF*}\parallel\hex{00}$
 &
 $I\parallel\text{Lс*}\parallel\text{CDF*}\parallel\hex{00}$
 \\
 \hline
-\end{tabular}
-\end{center}
+\end{longtable}
+}
