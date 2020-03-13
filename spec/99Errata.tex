@@ -14,7 +14,7 @@
 &
 $\langle\langle\text{M0}_\text{BPACE},\text{M1}_\text{BPACE}\rangle\rangle$
 &
-$\langle\langle\addendum{\text{M1}_\text{BPACE}}\rangle\rangle$
+$\langle\langle\text{M1}_\text{BPACE}\rangle\rangle$
 \\
 \hline
 Подраздел~\ref{FLOW.Steps},\par таблица~\ref{Table.FLOW.Msgs},
@@ -22,7 +22,7 @@ $\langle\langle\addendum{\text{M1}_\text{BPACE}}\rangle\rangle$
 &
 $\text{M0}_\text{BPACE}=\Chart_\text{В}$
 &
-$\addendum{\hello_\text{КП}=\langle\langle\Chart_\text{В}\rangle\rangle}$
+$\hello_\text{КП}=\langle\langle\Chart_\text{В}\rangle\rangle$
 \\
 \hline
 Подраздел~\ref{FLOW.Steps},\par таблица~\ref{Table.FLOW.Msgs},
@@ -30,8 +30,8 @@ $\addendum{\hello_\text{КП}=\langle\langle\Chart_\text{В}\rangle\rangle}$
 &
 $\text{M0}_\text{BAUTH}=(H_\text{КП},\Cert(Id_\text{Т},Q_\text{Т}))$
 &
-$\text{M0}_\text{BAUTH}=\addendum{
-  \langle\langle\hello_\text{Т},\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle}$
+$\text{M0}_\text{BAUTH}=
+\langle\langle\hello_\text{Т},\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle$ 
 \\
 \hline
 Подраздел~\ref{FLOW.Steps},\par шаг~3
@@ -41,16 +41,16 @@ $\text{M0}_\text{BAUTH}=\addendum{
 $\Chart_\text{КП}$ для дальнейшего использования.
 &
 В качестве приветственного сообщения $\hello_\text{КП}$ протокола BPACE
-используется перечень~\addendum{$\Chart_\text{В}$ и возможно другие данные}. 
-КТ должен сохранить \addendum{$\Chart_\text{В}$} для дальнейшего использования.
+используется перечень~$\Chart_\text{В}$ и возможно другие данные. 
+КТ должен сохранить $\Chart_\text{В}$ для дальнейшего использования.
 \\
 \hline
 Подраздел~\ref{FLOW.Steps},\par шаг~5
 &
 В качестве $\hello_\text{Т}$ используется хэш-значение $H_\text{СИ}$. 
 &
-\addendum{В $\hello_\text{Т}$ указывается хэш-значение $H_\text{СИ}$ ($H_\text{КП}$
-на стороне КП), перечень~$\Chart_\text{В}$ и возможно другие данные.}
+В $\hello_\text{Т}$ указывается хэш-значение $H_\text{СИ}$ ($H_\text{КП}$
+на стороне КП), перечень~$\Chart_\text{В}$ и возможно другие данные.
 \\
 \hline
 Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 
@@ -76,8 +76,8 @@ $T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 т.~е. использование цепочки команд <MSE: Set AT> не допускается. 
 При этом порядок следования объектов данных в компоненте CDF не важен. 
 &
-В компоненте CDF \addendum{обязательным является только первый объект.
-Объекты} должны передаваться с помощью одной команды, т.~е. использование
+В компоненте CDF обязательным является только первый объект.
+Объекты должны передаваться с помощью одной команды, т.~е. использование
 цепочки команд <MSE: Set AT> не допускается.
 \\
 \hline
@@ -91,14 +91,13 @@ $T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 непосредственно после выполнения протокола BPACE 
 (см.~\ref{Oper.Descr.GABPACE}). 
 %
-\addendum{
 Приветственное сообщение $\hello_\text{Т}$ протокола BAUTH определяется как 
 $\text{CDF}\parallel\texttt{CertHAT}^*$. Здесь~$\texttt{CertHAT}^*$~--- 
 список объектов $\texttt{CertHAT}$, указанный ранее в команде инициализации 
 протокола BPACE (см.~\ref{Oper.Descr.SetBPACE}). 
 %
 Приветственное сообщение $\hello_\text{КТ}$ протокола BAUTH полагается пустым.
-}\\
+\\
 \hline
 Пункт~\ref{Oper.Descr.SetBPACE}
 &
@@ -111,10 +110,9 @@ $\text{CDF}\parallel\texttt{CertHAT}^*$. Здесь~$\texttt{CertHAT}^*$~---
 не передается ни одного значения, то в качестве приветственного сообщения должно
 использоваться пустое слово.
 &
-\addendum{
 Компонент CDF должен использоваться в протоколе BPACE в качестве 
 приветственного сообщения $\hello_\text{КП}$ (см.~\ref{CRYPTO.BPACE}).
-}\\
+\\
 \hline
 Пункт~\ref{CMDS.SM.EncrCmd},\par шаг~4 
 &
