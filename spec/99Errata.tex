@@ -9,6 +9,22 @@
 В каком месте & Напечатано & Должно быть\\
 \hline
 \hline
+Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 
+&
+$T\gets\texttt{belt-mac}(\langle\langle I, Y\rangle\rangle, K_1)$.
+&
+$T\gets\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
+\\
+\hline
+Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~3 
+&
+Проверить, что\par 
+$T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$. 
+&
+Проверить, что\par 
+$T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
+\\
+\hline
 Подраздел~\ref{FLOW.Msgs},\par таблица~\ref{Table.FLOW.Msgs},
 шаг 3,\par сообщение
 &
@@ -51,22 +67,6 @@ $\Chart_\text{КП}$ для дальнейшего использования.
 &
 В $\hello_\text{Т}$ указывается хэш-значение $H_\text{СИ}$ ($H_\text{КП}$
 на стороне КП), перечень~$\Chart_\text{В}$ и возможно другие данные.
-\\
-\hline
-Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 
-&
-$T\gets\texttt{belt-mac}(\langle\langle I, Y\rangle\rangle, K_1)$.
-&
-$T\gets\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
-\\
-\hline
-Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~3 
-&
-Проверить, что\par 
-$T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$. 
-&
-Проверить, что\par 
-$T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
 \\
 \hline
 Пункт~\ref{Oper.Descr.SetBAUTH},\par абзац 2
