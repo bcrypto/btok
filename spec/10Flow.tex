@@ -92,53 +92,53 @@ $\Attr_\text{КТ}$~--- идентификационные атрибуты КТ
 %
 \hline
 1   & $\text{ПС}\rightarrow\text{КП}$ & $\Req_\text{ПС}$ &
-$\Req_\text{ПС}=\langle\langle\Chart_\text{ПС}\rangle\rangle$\\
+$\Req_\text{ПС}=\llangle\Chart_\text{ПС}\rrangle$\\
 \hline
 %
 2   & $\text{КП}\rightarrow\text{СИ}$ & 
-$\langle\langle\Req_\text{ПС},\Chart_\text{В}\rangle\rangle$ &\\
+$\llangle\Req_\text{ПС},\Chart_\text{В}\rrangle$ &\\
 \hline
 %
 3   & $\text{КП}\rightarrow\text{КТ}$ & 
-$\langle\langle\text{M1}_\text{BPACE}\rangle\rangle$ &
-$\hello_\text{КП}=\langle\langle\Chart_\text{В}\rangle\rangle$\\
+$\llangle\text{M1}_\text{BPACE}\rrangle$ &
+$\hello_\text{КП}=\llangle\Chart_\text{В}\rrangle$\\
     & $\text{КТ}\rightarrow\text{КП}$ & 
-$\langle\langle\text{M2}_\text{BPACE}\rangle\rangle$ &\\
+$\llangle\text{M2}_\text{BPACE}\rrangle$ &\\
     & $\text{КП}\rightarrow\text{КТ}$ & 
-$\langle\langle\text{M3}_\text{BPACE}\rangle\rangle$ &\\
+$\llangle\text{M3}_\text{BPACE}\rrangle$ &\\
     & $\text{КТ}\rightarrow\text{КП}$ & 
-$\langle\langle\text{M4}_\text{BPACE}\rangle\rangle$ &\\
+$\llangle\text{M4}_\text{BPACE}\rrangle$ &\\
 \hline
 %
 4   & $\text{СИ}\rightarrow\text{КП}$ & 
-$\langle\langle\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle$ &\\
+$\llangle\Cert(Id_\text{Т},Q_\text{Т})\rrangle$ &\\
 \hline
 %
 5   & $\text{КП}\Rightarrow\text{КТ}$ & 
-$\langle\langle\text{M0}_\text{BAUTH}\rangle\rangle$ &
+$\llangle\text{M0}_\text{BAUTH}\rrangle$ &
 $\text{M0}_\text{BAUTH}=
-      \langle\langle\hello_\text{Т},\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle$\\
+      \llangle\hello_\text{Т},\Cert(Id_\text{Т},Q_\text{Т})\rrangle$\\
     & $\text{КТ}\Rightarrow\text{КП}$ & 
-$\langle\langle\text{M1}_\text{BAUTH}\rangle\rangle$ &\\
+$\llangle\text{M1}_\text{BAUTH}\rrangle$ &\\
 \hline
 %
 6   & $\text{КП}\rightarrow\text{СИ}\rightarrow\text{Т}$ &
-$\langle\langle\text{M1}_\text{BAUTH}\rangle\rangle$ &\\
+$\llangle\text{M1}_\text{BAUTH}\rrangle$ &\\
     & $\text{Т}\rightarrow\text{СИ}\rightarrow\text{КП}\Rightarrow\text{КТ}$ & 
-$\langle\langle\text{M2}_\text{BAUTH}\rangle\rangle$ &\\
+$\llangle\text{M2}_\text{BAUTH}\rrangle$ &\\
     & $\text{КТ}\Rightarrow\text{КП}\rightarrow\text{СИ}\rightarrow\text{Т}$ & 
-$\langle\langle\text{M3}_\text{BAUTH}\rangle\rangle$ &\\
+$\llangle\text{M3}_\text{BAUTH}\rrangle$ &\\
 \hline
 %
 7   & $\text{Т}\Rightarrow\text{КТ}$ &
-$\langle\langle\Chart_\text{В}\rangle\rangle$ & По частям, через CИ и КП\\
+$\llangle\Chart_\text{В}\rrangle$ & По частям, через CИ и КП\\
     & $\text{КТ}\Rightarrow\text{Т}$ & 
-$\langle\langle\Attr_\text{КТ}\rangle\rangle$ & По частям, через КП и СИ\\
+$\llangle\Attr_\text{КТ}\rrangle$ & По частям, через КП и СИ\\
 \hline
 %
 8   & $\text{СИ}\rightarrow\text{ПС}$ &
 Билет & 
-$\text{билет}=\langle\langle\Attr_\text{КТ}\rangle\rangle$\\
+$\text{билет}=\llangle\Attr_\text{КТ}\rrangle$\\
 \hline
 \end{tabular}
 \addtolength{\tabcolsep}{1.5pt}

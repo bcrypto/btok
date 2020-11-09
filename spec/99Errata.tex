@@ -11,26 +11,26 @@
 \hline
 Пункт~\ref{CRYPTO.SM.Algs.Encr},\par шаг~3 
 &
-$T\gets\texttt{belt-mac}(\langle\langle I, Y\rangle\rangle, K_1)$.
+$T\gets\texttt{belt-mac}(\llangle I, Y\rrangle, K_1)$.
 &
-$T\gets\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
+$T\gets\texttt{belt-mac}(S\parallel \llangle I, Y\rrangle, K_1)$.
 \\
 \hline
 Пункт~\ref{CRYPTO.SM.Algs.Decr},\par шаг~3 
 &
 Проверить, что\par 
-$T=\texttt{belt-mac}(\langle\langle I, Y, T\rangle\rangle, K_1)$. 
+$T=\texttt{belt-mac}(\llangle I, Y, T\rrangle, K_1)$. 
 &
 Проверить, что\par 
-$T=\texttt{belt-mac}(S\parallel \langle\langle I, Y\rangle\rangle, K_1)$.
+$T=\texttt{belt-mac}(S\parallel \llangle I, Y\rrangle, K_1)$.
 \\
 \hline
 Подраздел~\ref{FLOW.Msgs},\par таблица~\ref{Table.FLOW.Msgs},
 шаг 3,\par сообщение
 &
-$\langle\langle\text{M0}_\text{BPACE},\text{M1}_\text{BPACE}\rangle\rangle$
+$\llangle\text{M0}_\text{BPACE},\text{M1}_\text{BPACE}\rrangle$
 &
-$\langle\langle\text{M1}_\text{BPACE}\rangle\rangle$
+$\llangle\text{M1}_\text{BPACE}\rrangle$
 \\
 \hline
 Подраздел~\ref{FLOW.Msgs},\par таблица~\ref{Table.FLOW.Msgs},
@@ -38,7 +38,7 @@ $\langle\langle\text{M1}_\text{BPACE}\rangle\rangle$
 &
 $\text{M0}_\text{BPACE}=\Chart_\text{В}$
 &
-$\hello_\text{КП}=\langle\langle\Chart_\text{В}\rangle\rangle$
+$\hello_\text{КП}=\llangle\Chart_\text{В}\rrangle$
 \\
 \hline
 Подраздел~\ref{FLOW.Msgs},\par таблица~\ref{Table.FLOW.Msgs},
@@ -47,7 +47,7 @@ $\hello_\text{КП}=\langle\langle\Chart_\text{В}\rangle\rangle$
 $\text{M0}_\text{BAUTH}=(H_\text{КП},\Cert(Id_\text{Т},Q_\text{Т}))$
 &
 $\text{M0}_\text{BAUTH}=
-\langle\langle\hello_\text{Т},\Cert(Id_\text{Т},Q_\text{Т})\rangle\rangle$ 
+\llangle\hello_\text{Т},\Cert(Id_\text{Т},Q_\text{Т})\rrangle$ 
 \\
 \hline
 Подраздел~\ref{FLOW.Steps},\par шаг~3

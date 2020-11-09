@@ -81,7 +81,7 @@ $Z \gets\perp$;
 если $|\text{Le}|>0$, то $Z\gets Z\parallel\der(\hex{97}, \text{Le})$.
 \end{enumerate}
 \item
-На шаге~2 кодовое представление $\langle\langle I,Y\rangle\rangle$
+На шаге~2 кодовое представление $\llangle I,Y\rrangle$
 определяется как $I\parallel Z$.
 \item
 После вычисления имитовставки~$T$ на шаге~3 строится слово
@@ -89,7 +89,7 @@ $\text{CDF*}\gets Z\parallel \der(\hex{8E}, T)$.
 Затем по правилам, заданным в~\ref{CMDS.Intro}, определяется длина Lc* этого 
 слова.
 \item
-На шаге~4 кодовое представление $\langle\langle I,Y,T\rangle\rangle$
+На шаге~4 кодовое представление $\llangle I,Y,T\rrangle$
 определяется как $I\parallel\text{Lс*}\parallel\text{CDF*}\parallel\hex{00}$.
 Это и есть защищенная команда cmd*.
 \end{enumerate}
@@ -145,13 +145,13 @@ $Z\gets\perp$;
 если $|Y|>0$, то $Z\gets Z\parallel\der(\hex{87},\hex{02}\parallel Y)$.
 \end{enumerate}
 \item
-На шаге~2 кодовое представление $\langle\langle I,Y\rangle\rangle$
+На шаге~2 кодовое представление $\llangle I,Y\rrangle$
 определяется как $Z\parallel I$.
 \item
 После вычисления имитовставки~$T$ на шаге~3 строится слово
 $\text{RDF*}\gets Z\parallel \der(\hex{8E}, T)$.
 \item
-На шаге~4 кодовое представление $\langle\langle I,Y,T\rangle\rangle$
+На шаге~4 кодовое представление $\llangle I,Y,T\rrangle$
 определяется как $\text{RDF*}\parallel I$.
 Это и есть защищенный ответ res*.
 \end{enumerate}
