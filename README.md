@@ -1,7 +1,7 @@
 BTOK: криптографические токены
 ==============================
 
-[![Build Status](https://travis-ci.org/bcrypto/btok.svg?branch=master)](https://travis-ci.org/bcrypto/btok)
+[![Build Status](https://travis-ci.com/bcrypto/btok.svg?branch=master)](https://travis-ci.com/bcrypto/btok)
 
 Что такое BTOK?
 ---------------
