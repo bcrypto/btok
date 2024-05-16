@@ -16,6 +16,6 @@
 *.bak
 *.backup
 
-# Concrete files
+# Specific files
 support
 clear.cmd
