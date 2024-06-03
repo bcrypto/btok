@@ -1,0 +1,23 @@
+statechart:
+  name: eSign states
+  preamble: is_pin_checked=false;is_authenticated=false
+  root state:
+    initial: hibernation
+    name: eSign
+    states:
+    - contract:
+      - always: is_authenticated==true
+      name: hibernation
+      transitions:
+      - event: keys_generated
+        target: Reset Pin
+      - event: keys_removed
+        target: Reset Pin
+      - event: pin_changed
+        target: Reset Pin
+      - event: n_digital_signature_generated
+        target: Reset Pin
+    - name: Reset Pin
+      on entry: is_pin_checked=false
+      transitions:
+      - target: hibernation

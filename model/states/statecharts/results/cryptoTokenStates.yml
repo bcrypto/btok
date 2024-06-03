@@ -1,0 +1,33 @@
+statechart:
+  name: Crypto Token states
+  preamble: Ter_to_T='close'
+  root state:
+    initial: IS
+    name: crypto_token
+    states:
+    - name: IS
+      transitions:
+      - event: bpace_succeeded
+        target: PS
+    - name: PS
+      on entry: A_to_T='close';A_to_T='active';Ter_to_T='close'
+      transitions:
+      - action: A_to_T='close'
+        event: force_connection_close:A_to_T
+        target: IS
+      - event: bauth_succeeded
+        target: AS
+    - name: AS
+      on entry: Ter_to_T='active'
+      transitions:
+      - action: Ter_to_T='close'
+        event: force_connection_close:Ter_to_T
+        target: PS
+      - action: A_to_T='close'
+        event: force_connection_close:A_to_T
+        target: IS
+      - event: finish
+        target: final
+    - name: final
+      on entry: A_to_T='close';Ter_to_T='close'
+      type: final
