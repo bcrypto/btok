@@ -3,7 +3,7 @@
 # \brief Issuing model CV-certificates
 # \project btok/model
 # \created 2025.01.15
-# \version 2025.01.15
+# \version 2025.01.16
 # \pre Bee2cmd (https://github.com/agievich/bee2) is installed.
 # =============================================================================
 
@@ -25,15 +25,20 @@ this=$(realpath $BASH_SOURCE)
 # * term --- terminal (terence);
 # * ct --- token (alice).
 #
-# Certificates (.cert) / private keys (.sk):
-#   ca0000 (root) ---- ca0001 (link)
-#    |  |
-#    |  + ----- ca1000
+# Objects:
+# * .sk --- private key;
+# * .cert --- certificate;
+# * .link --- link certificate.
+
+# Certificates:
+#   ca0000.cert (root) ---- ca0001.link
+#    |  |                   ca0001.cert (new root)
+#    |  + ----- ca1000.cert
 #    |             |
-#   ct            term
+# ct.cert       term.cert
 # =============================================================================
 
-# ca0
+# ca0: setup
 
 $bee2cmd kg gen -l128 -pass pass:zed ca0000.sk
 
@@ -42,19 +47,7 @@ $bee2cmd cvc root -authority BYCA0000 \
   -eid 3F3FFFFF33 -esign F7E0 \
   -pass pass:zed ca0000.sk ca0000.cert
 
-$bee2cmd kg gen -l128 -pass pass:zed ca0001.sk
-
-$bee2cmd cvc req -authority BYCA0000 -holder BYCA0001 \
-  -from 300101 -until 341231 \
-  -eid 3F3FFFFF33 -esign F7E0 \
-  -pass pass:zed ca0001.sk ca0001.req
-
-$bee2cmd cvc iss -pass pass:zed ca0000.sk ca0000.cert \
-  ca0001.req ca0001.cert
-
-rm -f ca0001.req
-
-# ca1 
+# ca1: enroll
 
 $bee2cmd kg gen -l128 -pass pass:trent ca1000.sk
 
@@ -68,7 +61,7 @@ $bee2cmd cvc iss -pass pass:zed ca0000.sk ca0000.cert \
 
 rm -f ca1000.req
 
-# term
+# term: enroll
 
 $bee2cmd kg gen -l128 -pass pass:terence term.sk
 
@@ -82,7 +75,7 @@ $bee2cmd cvc iss -pass pass:trent ca1000.sk ca1000.cert \
 
 rm -f term.req
 
-# ct
+# ct: enroll
 
 $bee2cmd kg gen -l128 -pass pass:alice ct.sk
 
@@ -94,3 +87,22 @@ $bee2cmd cvc iss -pass pass:zed ca0000.sk ca0000.cert \
   ct.req ct.cert
 
 rm -f ct.req
+
+# ca0: update
+
+$bee2cmd kg gen -l128 -pass pass:zed ca0001.sk
+
+$bee2cmd cvc root -authority BYCA0001 -holder BYCA0001 \
+  -from 300101 -until 341231 \
+  -eid 3F3FFFFF33 -esign F7E0 \
+  -pass pass:zed ca0001.sk ca0001.req
+
+$bee2cmd cvc req -authority BYCA0000 -holder BYCA0001 \
+  -from 300101 -until 341231 \
+  -eid 3F3FFFFF33 -esign F7E0 \
+  -pass pass:zed ca0001.sk ca0001.req
+
+$bee2cmd cvc iss -pass pass:zed ca0000.sk ca0000.cert \
+  ca0001.req ca0001.cert
+
+rm -f ca0001.req
